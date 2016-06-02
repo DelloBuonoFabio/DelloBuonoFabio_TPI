@@ -111,3 +111,30 @@ h4{
   margin: auto;
   margin-bottom: 10px;
 }
+
+.modal-content{
+    background-color: #232323;
+}
+
+.modal-header{
+    border-bottom: 1px solid #F9D01B;
+}
+
+.modal-body{
+    border-bottom: 1px solid #F9D01B;
+    border-top: 1px solid #F9D01B;
+}
+
+.modal-footer{
+    border-top: 1px solid #F9D01B;
+}
+
+#texteModal{
+    color: #F9D01B;
+}
+
+#btnYellow{
+    background-color: #F9D01B;
+    border-color: #F9D01B; 
+    color: #232323;
+}

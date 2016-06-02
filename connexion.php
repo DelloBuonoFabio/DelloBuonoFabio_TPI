@@ -36,15 +36,9 @@ if (isset($_REQUEST["btnSubmit"])) {
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="./images/divers/bootstrap.ico">
-        <link href="BootStrap/css/bootstrap.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
-        <title>Login</title>
+        <?php
+        echo AllMeta();
+        ?>
     </head>
     <body>
         <!-- MENU -->
@@ -68,22 +62,22 @@ if (isset($_REQUEST["btnSubmit"])) {
                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span></span>
                 </div> 
                 <br>
-                <button type="submit" class="btn btn-default btn-lg btn-block" name='btnSubmit'>Submit</button>
+                <button type="submit" class="btn btn-default btn-lg btn-block" name='btnSubmit'>Envoyer</button>
             </form>     
             <br>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#myModal">
-                Register Here
+                Créer un compte
             </button>
 
             <!-- Modal -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form action="login.php" method="post" id="registerForm">
+                        <form action="connexion.php" method="post" id="registerForm">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Register</h4>
+                                <h4 class="modal-title" id="myModalLabel">Enregistrement</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="input-group input-group-lg form-group">
@@ -106,11 +100,11 @@ if (isset($_REQUEST["btnSubmit"])) {
                                     <input type="password" class="form-control" placeholder="Confirmer le Mot De Passe" required name='NewPasswordConfirmed' aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span>
                                 </div> 
-                                <p><span class="glyphicon glyphicon-exclamation-sign"></span> Tous les champs sont requis</p>
+                                <p id="texteModal"><span class="glyphicon glyphicon-exclamation-sign"></span> Tous les champs sont requis</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" name="modalForm" class="btn btn-primary">Let's Go</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                <button type="submit" name="modalForm" id="btnYellow" class="btn btn-primary">Confirmer</button>
                             </div>
                         </form>
                     </div>

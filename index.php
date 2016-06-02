@@ -41,7 +41,7 @@ require_once 'application.php';
                 <div class="panel-body">
                     <form action="" method="get" name="direction" id="direction">
                         <div class="input-group input-group-lg form-group" id="test">
-                            <input type="text" class="form-control" placeholder="Point de départ" name='origin' id="origin" required aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" required placeholder="Point de départ" name='origin' id="origin" aria-describedby="basic-addon2">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" data-toggle="tooltip" title="Géolocalisation" name="texteOrigin" onclick="getPosition('origin')"><span class="glyphicon glyphicon-map-marker" id="petitLogo"></span></button>
                             </span>
