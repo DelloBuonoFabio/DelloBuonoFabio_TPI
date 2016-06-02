@@ -42,19 +42,15 @@
 }
 
 /* Modification du texte de presentation */
-.panel-primary {
-    border-color: white ;
+.panel-default{
+    background-color: #232323;
+    border-color: #232323;
+    border-bottom-color: gray;
+    color: white;
 }
-.panel-primary p {
-    margin: 1px 1px 1px;  
-}
-
-/*Modification du texte d'information'*/
-.panel-info {
-    border-color: white;
-}
-.panel-info p {
-    margin: 0px 0px 0px;  
+.panel-default > .panel-heading {
+    background-color: #232323;
+    border-color: #232323;
 }
 
 /* Corps du site web */
@@ -77,17 +73,6 @@ body {
     text-align: center;
     font-size: 17px;
 }
-.panel-heading {
-    padding: 10px 15px;
-    border-bottom: none;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-.panel-default > .panel-heading {
-    color: #4C546B;
-    background-color: #FFFFFF;
-    border-color: #DDDDDD;
-}
 
 h2{
     text-align: center;
@@ -107,4 +92,22 @@ a{
 }
 footer{
     color: #F9D01B;
+}
+
+h1{
+    text-align: center;
+    color: #F9D01B;
+}
+
+h4{
+    text-align: center;
+    color: #F9D01B;
+}
+
+#Map {
+  width:85%;
+  height:400px; 
+  border-radius: 4px;
+  margin: auto;
+  margin-bottom: 10px;
 }
