@@ -19,7 +19,7 @@ function ConnectDB() {
                 PDO::ATTR_EMULATE_PREPARES => false));
         }
     } catch (Exception $e) {
-        die("R.I.P in peace " . $e->getMessage());
+        die("Error DataBase -> " . $e->getMessage());
     }
     return $maDB;
 }
