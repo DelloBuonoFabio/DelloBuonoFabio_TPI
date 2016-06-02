@@ -7,10 +7,14 @@
  */
 function ConnectDB() {
     static $maDB = null;
+    $myDBname = "mypcconfig_tpi";
+    $myDbnameUser = "AdminLocal";
+    $myDBmdpUser = "Super";
     try {
         if ($maDB == null) {
-            $maDB = new PDO("mysql:host=localhost;dbname=hardware;charset=utf8", 'admin', // username 
-                    'Super', // mdp 
+            $maDB = new PDO("mysql:host=localhost;dbname=$myDBname;charset=utf8",
+                    $myDbnameUser, // username 
+                    $myDBmdpUser, // mdp 
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false));
         }
