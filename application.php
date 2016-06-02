@@ -12,8 +12,7 @@ function ConnectDB() {
     $myDBmdpUser = "Super";
     try {
         if ($maDB == null) {
-            $maDB = new PDO("mysql:host=localhost;dbname=$myDBname;charset=utf8",
-                    $myDbnameUser, // username 
+            $maDB = new PDO("mysql:host=localhost;dbname=$myDBname;charset=utf8", $myDbnameUser, // username 
                     $myDBmdpUser, // mdp 
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false));
@@ -79,6 +78,21 @@ function menu() {
         </div>
     </nav>
     <?php
+}
+
+function AllMeta() {
+    $localMeta = '
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="description" content="HardWare">
+        <meta name="author" content="Dello Buono Fabio">
+        <link rel="icon" href="./images/divers/logo.ico">
+        <link href="BootStrap/css/bootstrap.css" rel="stylesheet">
+        <link href="./css/style.css" rel="stylesheet">
+        <title>My PC Config</title>';
+    return $localMeta;
 }
 
 /**
@@ -168,7 +182,7 @@ function ShowConfiguration() {
                 </div>
                 <!-- Contenue de la liste -->
                 <div class="panel-body" class="texte-configuration">';
-        echo '<img src="images/img_configuration/Img' . $tempo .'.gif" alt="..." class="img-thumbnail">';
+        echo '<img src="images/img_configuration/Img' . $tempo . '.gif" alt="..." class="img-thumbnail">';
 
         echo '<a href="components.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un/e ' . $value["nom_categorie"] . '</h4></a>
                 </div>
@@ -184,7 +198,7 @@ function ShowUser() {
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    
+
     foreach ($return as $value) {
         echo '<tr>';
         echo '<th>' . $value["id_utilisateur"] . '</th>';
