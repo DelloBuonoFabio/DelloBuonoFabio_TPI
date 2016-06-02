@@ -48,7 +48,7 @@ require_once 'application.php';
 
                         </div> 
                         <div class="input-group input-group-lg form-group">
-                            <input type="text" class="form-control" readonly="readonly" value="CFPT Ecole d'Informatique, Chemin Gérard-De-Ternier, Lancy" placeholder="Destination" name='destination' id="destination" required aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" readonly="readonly" value="CFPT Ecole d'Informatique, Chemin Gérard-De-Ternier 10, Lancy" placeholder="Destination" name='destination' id="destination" required aria-describedby="basic-addon2">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" data-toggle="tooltip" title="Géolocalisation" name="texteDestination"><span class="glyphicon glyphicon-home" id="petitLogo"></span></button>
                             </span>
