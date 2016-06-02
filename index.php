@@ -12,7 +12,7 @@ require_once 'application.php';
     <body>  
         <!-- MENU -->                
         <div class="navbar-wrapper">
-            <div class="container animation-target">
+            <div class="container">
                 <?php
                 menu();
                 ?>

@@ -28,8 +28,8 @@ function menu() {
 
     if (empty($_SESSION['user_logged'])) {
         //if the user is not connected
-        $menu = array("index.php" => 'Home <span class="glyphicon glyphicon-home"></span>',
-            "login.php" => 'Login <span class="glyphicon glyphicon-user"></span>',
+        $menu = array("index.php" => 'Accueil <span class="glyphicon glyphicon-home"></span>',
+            "connexion.php" => 'Connexion <span class="glyphicon glyphicon-user"></span>',
             "hardware.php" => 'HardWare <span class="glyphicon glyphicon-wrench"></span>'
         );
     } else {
