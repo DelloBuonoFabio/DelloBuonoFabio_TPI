@@ -46,6 +46,7 @@ function menu() {
             $menu = array("index.php" => 'Home <span class="glyphicon glyphicon-home"></span>',
                 "hardware.php" => 'HardWare <span class="glyphicon glyphicon-wrench"></span>',
                 "configuration.php" => 'Configuration <span class="glyphicon glyphicon-cog"></span>',
+                "compte.php" => 'Mon Compte <span class="glyphicon glyphicon-user"></span>',
                 "logout.php" => 'Logout <span class="glyphicon glyphicon-remove"></span>'
             );
         }

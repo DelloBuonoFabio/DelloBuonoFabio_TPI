@@ -3,7 +3,7 @@ session_start();
 require_once 'application.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <?php
         echo AllMeta();
@@ -19,19 +19,21 @@ require_once 'application.php';
             </div>
         </div>
         <div class="container">
-            <!-- PANEL -->
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>les catégories</h3>
-                </div>
-                <!-- Contenue de la liste -->
                 <div class="panel-body">
-                    <?php
-                    ShowCategorie();
-                    ?>
+                    <h3>Nom</h3><h4>Dello Buono</h4> 
+                    <h3>Prénom</h3><h4>Fabio</h4> 
+                    <h3>Email</h3><h4>fabio@gmail.com</h4>
                 </div>
             </div>
-
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">Modifier mes informations</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">Afficher mes créations</button>
+                </div>
+            </div>
             <!-- FOOTER --> 
             <footer>
                 <?php
