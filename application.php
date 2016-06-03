@@ -126,7 +126,7 @@ function AddUser($name, $firstname, $email, $password) {
         $maRequete->execute(array($name, $firstname, $email, $newMDP, $admin));
         $error = "OK";
     } catch (Exception $e) {
-        $error = "";
+        $error = "error";
     }
     return $error;
 }
@@ -140,7 +140,6 @@ function CheckLogin($email, $password) {
     $dtb = ConnectDB();
     $password = sha1($password);
     $sql = "SELECT * FROM t_utilisateur WHERE email_utilisateur = ? AND motDePasse_utilisateur = ? ";
-    ;
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array($email, $password));
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);

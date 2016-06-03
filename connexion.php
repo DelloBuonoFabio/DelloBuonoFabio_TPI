@@ -3,6 +3,8 @@ session_start();
 require_once 'application.php';
 
 $error = "";
+
+$NewData = [];
 if (isset($_REQUEST["modalForm"])) {
     $NewName = filter_input(INPUT_POST, 'NewName', FILTER_SANITIZE_SPECIAL_CHARS);
     $NewFirstName = filter_input(INPUT_POST, 'NewFirstName', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -12,11 +14,12 @@ if (isset($_REQUEST["modalForm"])) {
 
     if ($NewPassword == $NewPasswordConfirmed) {
         $NewData = AddUser($NewName, $NewFirstName, $NewEmail, $NewPassword);
+        $error = '<div class="alert alert-success" role="alert"><strong>Parfait!</strong> Le compte a bel et bien été crée, vous pouvez maintenant vous connecter !</div>';
     } else {
         $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les mots de passe ne sont pas les même !</div>';
     }
 
-    if (empty($NewData)) {
+    if ($NewData == "error") {
         $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Cette adresse email est déjà utilisée !</div>';
     }
 }
@@ -77,7 +80,7 @@ if (isset($_REQUEST["btnSubmit"])) {
                         <form action="connexion.php" method="post" id="registerForm">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Enregistrement</h4>
+                                <h3 class="modal-title" id="myModalLabel">Enregistrement</h3>
                             </div>
                             <div class="modal-body">
                                 <div class="input-group input-group-lg form-group">
@@ -119,9 +122,6 @@ if (isset($_REQUEST["btnSubmit"])) {
                 ?>
             </footer>
         </div>
-
-
-
         <!-- Bootstrap script  -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
