@@ -153,15 +153,32 @@ function ShowCategorie() {
     echo '<table class="table">';
     foreach ($return as $value) {
         echo '<tr class="listeCategorie">';
-        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="components.php?Categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p>' . '</td>';
+        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="components.php?categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p>' . '</td>';
 
         echo '</tr>';
     }
     echo '</table>';
 }
 
-function ShowThisCategorie(){
+function ShowThisCategorie($categorieName){
+    $dtb = ConnectDB();
+    $location = "./images/composant/";
+    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
     
+     echo '<table class="table">';
+     foreach ($return as $value) {
+        echo '<tr class="listeCategorie">';
+        echo '<td><img src=' . $location  . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
+        echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
+        echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
+        echo '</tr>';
+    }
+     echo '</table>';
 }
 function ShowConfiguration() {
     $dtb = ConnectDB();
