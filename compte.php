@@ -22,6 +22,11 @@ if (isset($_REQUEST["modalFormUpdate"])) {
         $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les mots de passe ne sont pas les même !</div>';
     }
 }
+
+if (isset($_REQUEST["DeleteUser"])) {
+    DeletUser($_SESSION['user_logged']['email_utilisateur']);
+    header('Location: logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -59,7 +64,7 @@ if (isset($_REQUEST["modalFormUpdate"])) {
                 echo $error;
             ?>
             </br>
-            <button type="button" class="btn btn-default btn-sm btn-block" name='btnSubmit'>Supprimer le compte</button>
+            <button type="button" class="btn btn-default btn-sm btn-block" name='btnSubmit' data-toggle="modal" data-target="#ModalSecurity">Supprimer le compte</button>
             <!-- Modal information -->
             <div class="modal fade" id="ModalInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -115,6 +120,22 @@ if (isset($_REQUEST["modalFormUpdate"])) {
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                                 <button type="submit" name="modalForm" id="btnYellow" class="btn btn-primary">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Security -->
+            <div class="modal fade" id="ModalSecurity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="compte.php" method="post" id="registerForm">
+                            <div class="modal-header">
+                                <div class="alert alert-danger" role="alert"><strong>Attention!</strong> Voulez-vous vraiment supprimer votre compte ?</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
                             </div>
                         </form>
                     </div>
