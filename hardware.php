@@ -34,8 +34,9 @@ require_once 'application.php';
 
             <!-- FOOTER --> 
             <footer>
-                <p class="pull-right"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
-                <p>&copy; Dello Buono Fabio</p>
+                <?php
+                echo AllFooter()
+                ?>
             </footer>
         </div>
         <!-- Bootstrap script  -->

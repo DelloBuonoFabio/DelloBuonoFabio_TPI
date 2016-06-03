@@ -114,8 +114,9 @@ if (isset($_REQUEST["btnSubmit"])) {
             <?php echo $error; ?>
             <!-- FOOTER -->
             <footer>
-                <p class="pull-right"><a href="#">&#x23CF;</a></p>
-                <p>&copy; 2015 Dello Buono Fabio</p>
+                <?php
+                echo AllFooter()
+                ?>
             </footer>
         </div>
 

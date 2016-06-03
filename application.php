@@ -95,6 +95,13 @@ function AllMeta() {
     return $localMeta;
 }
 
+function AllFooter() {
+    $localFooter = '
+        <p class="pull-right"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
+        <p>Dello Buono Fabio</p>';
+    return $localFooter;
+}
+
 /**
  * Add a new user in the DB 
  * @staticvar type $maRequete
@@ -160,7 +167,7 @@ function ShowCategorie() {
     echo '</table>';
 }
 
-function ShowThisCategorie($categorieName){
+function ShowThisCategorie($categorieName) {
     $dtb = ConnectDB();
     $location = "./images/composant/";
     $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
@@ -169,17 +176,18 @@ function ShowThisCategorie($categorieName){
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    
-     echo '<table class="table">';
-     foreach ($return as $value) {
+
+    echo '<table class="table">';
+    foreach ($return as $value) {
         echo '<tr class="listeCategorie">';
-        echo '<td><img src=' . $location  . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
+        echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
         echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
         echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
         echo '</tr>';
     }
-     echo '</table>';
+    echo '</table>';
 }
+
 function ShowConfiguration() {
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
