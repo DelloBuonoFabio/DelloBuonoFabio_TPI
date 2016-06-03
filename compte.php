@@ -1,6 +1,26 @@
 <?php
 session_start();
 require_once 'application.php';
+
+$error = "";
+if (isset($_REQUEST["modalFormUpdate"])) {
+    $UpdateName = filter_input(INPUT_POST, 'UpdateName', FILTER_SANITIZE_SPECIAL_CHARS);
+    $UpdateFirstName = filter_input(INPUT_POST, 'UpdateFirstName', FILTER_SANITIZE_SPECIAL_CHARS);
+    $UpdateEmail = filter_input(INPUT_POST, 'UpdateEmail', FILTER_SANITIZE_SPECIAL_CHARS);
+    $UpdatePassword = filter_input(INPUT_POST, 'UpdatePassword', FILTER_SANITIZE_SPECIAL_CHARS);
+    $UpdatePasswordConfirmed = filter_input(INPUT_POST, 'UpdatePasswordConfirmed', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    if ($UpdatePassword == $UpdatePasswordConfirmed) {
+        $UpdateData = UpdateUserInformation($_SESSION['user_logged']['nom_utilisateur'], $UpdateFirstName, $UpdateName, $UpdatePassword, $UpdateEmail);
+        var_dump($UpdateData);
+        if ($UpdateData != false) {
+            $_SESSION['user_logged'] = $UpdateData;
+            header('Location: compte.php');
+        } else {
+            $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les changement on subit une erreur !</div>';
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -34,6 +54,9 @@ require_once 'application.php';
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalCreation">Afficher mes créations</button>
                 </div>
             </div>
+            <?php
+                echo $error;
+            ?>
             <!-- Modal information -->
             <div class="modal fade" id="ModalInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -45,30 +68,30 @@ require_once 'application.php';
                             </div>
                             <div class="modal-body">
                                 <div class="input-group input-group-lg form-group">
-                                    <input type="text" class="form-control" placeholder="Nom" value="<?php echo $_SESSION['user_logged']['nom_utilisateur'] ?>"  name='NewName' required aria-describedby="basic-addon2">
+                                    <input type="text" class="form-control" placeholder="Nom" value="<?php echo $_SESSION['user_logged']['nom_utilisateur'] ?>"  name='UpdateName' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span></span>
                                 </div> 
                                 <div class="input-group input-group-lg form-group">
-                                    <input type="text" class="form-control" placeholder="Prenom" value="<?php echo $_SESSION['user_logged']['prenom_utilisateur'] ?>" name='NewFirstName' required aria-describedby="basic-addon2">
+                                    <input type="text" class="form-control" placeholder="Prenom" value="<?php echo $_SESSION['user_logged']['prenom_utilisateur'] ?>" name='UpdateFirstName' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span>
                                 </div> 
                                 <div class="input-group input-group-lg form-group">
-                                    <input type="email" class="form-control" placeholder="Email" value="<?php echo $_SESSION['user_logged']['email_utilisateur'] ?>"  name='NewEmail' required aria-describedby="basic-addon2">
+                                    <input type="email" class="form-control" placeholder="Email" value="<?php echo $_SESSION['user_logged']['email_utilisateur'] ?>"  name='UpdateEmail' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-envelope"></span>
                                 </div> 
                                 <div class="input-group input-group-lg form-group">
-                                    <input type="password" class="form-control" placeholder="Mot De Passe" name='NewPassword' required aria-describedby="basic-addon2">
+                                    <input type="password" class="form-control" placeholder="Mot De Passe" name='UpdatePassword' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span>
                                 </div> 
                                 <div class="input-group input-group-lg form-group">
-                                    <input type="password" class="form-control" placeholder="Confirmer le Mot De Passe" required name='NewPasswordConfirmed' aria-describedby="basic-addon2">
+                                    <input type="password" class="form-control" placeholder="Confirmer le Mot De Passe" required name='UpdatePasswordConfirmed' aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span>
                                 </div> 
                                 <p id="texteModal"><span class="glyphicon glyphicon-exclamation-sign"></span> Tous les champs sont requis</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="modalForm" id="btnYellow" class="btn btn-primary">Modifier</button>
+                                <button type="submit" name="modalFormUpdate" id="btnYellow" class="btn btn-primary">Modifier</button>
                             </div>
                         </form>
                     </div>
@@ -84,7 +107,7 @@ require_once 'application.php';
                                 <h3 class="modal-title" id="myModalLabel">Mes Créations</h3>
                             </div>
                             <div class="modal-body">
-                                
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>

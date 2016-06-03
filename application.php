@@ -239,3 +239,24 @@ function ShowUser() {
         echo '</tr>';
     }
 }
+
+function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPassword, $newEmail){
+    
+    $dtb = connectDB();
+
+    $newPassword = sha1($newPassword);
+
+    $sqlUpdate = ("UPDATE t_utilisateur
+                SET nom_utilisateur=?, prenom_utilisateur=?,motDePasse_utilisateur=?,email_utilisateur=?
+                WHERE nom_utilisateur=?;");
+    
+    $maRequete = $dtb->prepare($sqlUpdate);
+    $maRequete->execute(array($newName, $newFirstName, $newPassword, $newEmail, $currentUser));
+
+    $sql = "SELECT * FROM t_utilisateur WHERE email_utilisateur = ?";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array($newEmail));
+    $data = $maRequete->fetch(PDO::FETCH_ASSOC);
+    return $data;
+
+}
