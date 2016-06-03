@@ -160,6 +160,9 @@ function ShowCategorie() {
     echo '</table>';
 }
 
+function ShowThisCategorie(){
+    
+}
 function ShowConfiguration() {
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
