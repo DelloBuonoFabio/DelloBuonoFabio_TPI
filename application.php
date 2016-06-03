@@ -260,3 +260,9 @@ function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPasswo
     return $data;
 
 }
+
+function DeletUser($EmailUser) {
+    $DB = connectBD();
+    $MaRequete = $DB->prepare("DELETE FROM t_utilisateur WHERE email_utilisateur=?");
+    $MaRequete->execute(array($EmailUser));
+}

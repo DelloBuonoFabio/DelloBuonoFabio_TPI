@@ -12,13 +12,14 @@ if (isset($_REQUEST["modalFormUpdate"])) {
 
     if ($UpdatePassword == $UpdatePasswordConfirmed) {
         $UpdateData = UpdateUserInformation($_SESSION['user_logged']['nom_utilisateur'], $UpdateFirstName, $UpdateName, $UpdatePassword, $UpdateEmail);
-        var_dump($UpdateData);
         if ($UpdateData != false) {
             $_SESSION['user_logged'] = $UpdateData;
             header('Location: compte.php');
         } else {
-            $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les changement on subit une erreur !</div>';
+            $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les changement ont subis une erreur !</div>';
         }
+    }else {
+        $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les mots de passe ne sont pas les même !</div>';
     }
 }
 ?>
@@ -41,22 +42,24 @@ if (isset($_REQUEST["modalFormUpdate"])) {
         <div class="container">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Nom</h3><h4><?php echo $_SESSION['user_logged']['nom_utilisateur'] ?></h4> 
-                    <h3>Prénom</h3><h4><?php echo $_SESSION['user_logged']['prenom_utilisateur'] ?></h4> 
-                    <h3>Email</h3><h4><?php echo $_SESSION['user_logged']['email_utilisateur'] ?></h4>
+                    <h4>Nom</h4><p><?php echo $_SESSION['user_logged']['nom_utilisateur'] ?></p> 
+                    <h4>Prénom</h4><p><?php echo $_SESSION['user_logged']['prenom_utilisateur'] ?></p> 
+                    <h4>Email</h4><p><?php echo $_SESSION['user_logged']['email_utilisateur'] ?></p>
                 </div>
             </div>
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalInformation">Modifier mes informations</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalInformation">Mes informations</button>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalCreation">Afficher mes créations</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalCreation">Mes créations</button>
                 </div>
             </div>
             <?php
                 echo $error;
             ?>
+            </br>
+            <button type="button" class="btn btn-default btn-sm btn-block" name='btnSubmit'>Supprimer le compte</button>
             <!-- Modal information -->
             <div class="modal fade" id="ModalInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -117,6 +120,7 @@ if (isset($_REQUEST["modalFormUpdate"])) {
                     </div>
                 </div>
             </div>
+            
             <!-- FOOTER --> 
             <footer>
                 <?php

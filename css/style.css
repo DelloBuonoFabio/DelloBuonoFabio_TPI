@@ -104,6 +104,11 @@ h3{
     color: #F9D01B;
 }
 
+h4{
+    text-align: center;
+    color: #F9D01B;
+}
+
 #Map {
   width:85%;
   height:400px; 
