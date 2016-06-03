@@ -69,7 +69,7 @@ body {
 /* Modification du tableau categories */
 .table td,
 .table th {
-    color: #4C546B; 
+    color: #F9D01B; 
     text-align: center;
     font-size: 17px;
 }
@@ -99,7 +99,7 @@ h1{
     color: #F9D01B;
 }
 
-h4{
+h3{
     text-align: center;
     color: #F9D01B;
 }
