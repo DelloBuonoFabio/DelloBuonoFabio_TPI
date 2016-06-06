@@ -160,7 +160,7 @@ function ShowCategorie() {
     echo '<table class="table">';
     foreach ($return as $value) {
         echo '<tr class="listeCategorie">';
-        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="components.php?categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p>' . '</td>';
+        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="components.php?categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p></td>';
 
         echo '</tr>';
     }
@@ -234,8 +234,8 @@ function ShowUser() {
         echo '<td>' . $value["prenom_utilisateur"] . '</td>';
         echo '<td>' . $value["email_utilisateur"] . '</td>';
         echo '<td>' . $value["estAdmin"] . '</td>';
-        echo '<td><a href="#" ><span class="glyphicon glyphicon-trash"></span></a></td>';
-        echo '<td><a href="#" ><span class="glyphicon glyphicon-pencil"></span></a></td>';
+        echo '<td><a href="AdminUtilisateur.php?idUser=' . $value["id_utilisateur"] . '"><button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer le compte</button></a></td>';
+        echo '<td><a href="AdminUtilisateur.php?idUser=' . $value["id_utilisateur"] . '" data-toggle="modal" data-target="#ModalSecurity"><span class="glyphicon glyphicon-trash"></span></a></td>';
         echo '</tr>';
     }
 }

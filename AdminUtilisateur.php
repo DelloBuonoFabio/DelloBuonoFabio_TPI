@@ -5,16 +5,9 @@ require_once 'application.php';
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="./images/divers/bootstrap.ico">
-        <link href="BootStrap/css/bootstrap.css" rel="stylesheet">
-        <link href="./css/style.css" rel="stylesheet">
-        <title>AdminUtilisateur</title>
+        <?php
+        echo AllMeta();
+        ?>
     </head>
     <body>  
         <!-- MENU -->                
@@ -26,16 +19,33 @@ require_once 'application.php';
             </div>
         </div>
         <div class="container">
-            <table class="table table-striped" id='backgroundTable'>
+            <table class="table">
                 <tr>
-                    <th>#</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Admin</th><th colspan="2">Options</th>
+                    <th>#</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Admin</th><th>Option</th>
                 </tr>
                 <?php ShowUser() ?>
             </table>
+            <!-- Modal Security -->
+            <div class="modal fade" id="ModalSecurity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="compte.php" method="post" id="registerForm">
+                            <div class="modal-header">
+                                <div class="alert alert-danger" role="alert"><strong>Attention!</strong> Voulez-vous vraiment supprimer votre compte ?</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER --> 
             <footer>
-                <p class="pull-right"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
-                <p>&copy; Dello Buono Fabio</p>
+                <?php
+                echo AllFooter()
+                ?>
             </footer>
         </div>
         <!-- Bootstrap script  -->
