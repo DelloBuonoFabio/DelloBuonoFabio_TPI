@@ -42,8 +42,9 @@ if (isset($_REQUEST["btnAfficher"])) {
                     </form>
                     </br>
                     <?php
-                    echo ShowComponent($ThisCategorie);
                     echo $ThisCategorie;
+                    ShowComponent($ThisCategorie);
+                    
                     ?>
                 </div>
             </div>

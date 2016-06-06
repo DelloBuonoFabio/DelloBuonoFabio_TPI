@@ -240,8 +240,8 @@ function ShowUser() {
     }
 }
 
-function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPassword, $newEmail){
-    
+function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPassword, $newEmail) {
+
     $dtb = connectDB();
 
     $newPassword = sha1($newPassword);
@@ -249,7 +249,7 @@ function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPasswo
     $sqlUpdate = ("UPDATE t_utilisateur
                 SET nom_utilisateur=?, prenom_utilisateur=?,motDePasse_utilisateur=?,email_utilisateur=?
                 WHERE nom_utilisateur=?;");
-    
+
     $maRequete = $dtb->prepare($sqlUpdate);
     $maRequete->execute(array($newName, $newFirstName, $newPassword, $newEmail, $currentUser));
 
@@ -258,7 +258,6 @@ function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPasswo
     $maRequete->execute(array($newEmail));
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);
     return $data;
-
 }
 
 function DeletUser($EmailUser) {
@@ -267,7 +266,7 @@ function DeletUser($EmailUser) {
     $MaRequete->execute(array($EmailUser));
 }
 
-function GetCategorrie(){
+function GetCategorrie() {
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
@@ -275,26 +274,30 @@ function GetCategorrie(){
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    
+
     foreach ($return as $value) {
-        $tempo = '"' . $value["nom_categorie"] . '"';
-        echo '<option value=\'' . $tempo . '\'>' . $value["nom_categorie"] . '</option>';
+        echo '<option value="' . $value["nom_categorie"] . '">' . $value["nom_categorie"] . '</option>';
     }
 }
 
-function ShowComponent($categorieName){
+function ShowComponent($categorieName) {
     $dtb = ConnectDB();
     $location = "./images/composant/";
-    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = ? ';
+    if ($categorieName == "ca.nom_categorie") {
+        $tempo = "";
+    } else {
+        $tempo = '"';
+    }
+    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = '. $tempo . $categorieName . $tempo . ' ';
     $maRequete = $dtb->prepare($sql);
-    $maRequete->execute(array($categorieName));
+    $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
-        $return[] = $data;
+        $tableau[] = $data;
     }
 
-    var_dump($return);
+    //var_dump($return);
     echo '<table class="table">';
-    foreach ($return as $value) {
+    foreach ($tableau as $value) {
         echo '<tr class="listeCategorie">';
         echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
         echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
