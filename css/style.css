@@ -152,3 +152,14 @@ h4{
 .panel-title{
     color: #F9D01B;
 }
+
+.noBorder{
+    border: none;
+}
+
+.btn-file{
+    background: white;
+    cursor: inherit;
+    width: 100%;
+    margin-bottom: 20px;
+}
