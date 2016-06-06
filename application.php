@@ -267,8 +267,7 @@ function DeletUser($EmailUser) {
     $MaRequete->execute(array($EmailUser));
 }
 
-function GetCategorrie()
-{
+function GetCategorrie(){
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
@@ -276,8 +275,31 @@ function GetCategorrie()
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-
+    
     foreach ($return as $value) {
-        echo '<option value="' . $value["nom_categorie"] . '">' . $value["nom_categorie"] . '</option>';
+        $tempo = '"' . $value["nom_categorie"] . '"';
+        echo '<option value=\'' . $tempo . '\'>' . $value["nom_categorie"] . '</option>';
     }
+}
+
+function ShowComponent($categorieName){
+    $dtb = ConnectDB();
+    $location = "./images/composant/";
+    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = ? ';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array($categorieName));
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+
+    var_dump($return);
+    echo '<table class="table">';
+    foreach ($return as $value) {
+        echo '<tr class="listeCategorie">';
+        echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
+        echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
+        echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
+        echo '</tr>';
+    }
+    echo '</table>';
 }

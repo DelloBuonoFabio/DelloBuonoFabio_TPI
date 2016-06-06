@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once 'application.php';
+
+
+if (isset($_REQUEST["btnAfficher"])) {
+    $ThisCategorie = filter_input(INPUT_POST, 'selectCat', FILTER_SANITIZE_SPECIAL_CHARS);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -25,12 +30,21 @@ require_once 'application.php';
                 </div>
                 <div class="panel-body">
                     <h3>Afficher les Composants</h3>
-                    <select class="form-control">
-                        <option value="*">Choisir une catégorie...</option>
-                        <?php
-                        echo GetCategorrie();
-                        ?>
-                    </select>
+                    <form action="#" method="POST">
+                        <select class="form-control" name="selectCat">
+                            <option value="ca.nom_categorie">Choisir une catégorie...</option>
+                            <?php
+                            echo GetCategorrie();
+                            ?>
+                        </select>
+                        </br>
+                        <button type="submit" class="btn btn-default btn-cm btn-block" name='btnAfficher'>Afficher</button>
+                    </form>
+                    </br>
+                    <?php
+                    echo ShowComponent($ThisCategorie);
+                    echo $ThisCategorie;
+                    ?>
                 </div>
             </div>
             <!-- FOOTER --> 
@@ -44,6 +58,5 @@ require_once 'application.php';
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>
-        <script src="./functions.js"></script>
     </body>
 </html>
