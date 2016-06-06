@@ -55,7 +55,12 @@ if (isset($_REQUEST["btnSubmit"])) {
         </div>
         <!-- CONTENT1 -->
         <div class="container marketing">
-            <form action="#" method="post">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Connexion</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="#" method="post">
                 <div class="input-group input-group-lg form-group">
                     <input type="email" class="form-control" placeholder="Email" name='UserEmail' required aria-describedby="basic-addon2">
                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span></span>
@@ -72,7 +77,8 @@ if (isset($_REQUEST["btnSubmit"])) {
             <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#myModal">
                 Créer un compte
             </button>
-
+                </div>
+            </div>
             <!-- Modal -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">

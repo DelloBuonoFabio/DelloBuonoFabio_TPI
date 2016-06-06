@@ -266,3 +266,18 @@ function DeletUser($EmailUser) {
     $MaRequete = $dtb->prepare("DELETE FROM t_utilisateur WHERE email_utilisateur=?");
     $MaRequete->execute(array($EmailUser));
 }
+
+function GetCategorrie()
+{
+    $dtb = ConnectDB();
+    $sql = "Select nom_categorie from t_categorie where 1";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+
+    foreach ($return as $value) {
+        echo '<option value="' . $value["nom_categorie"] . '">' . $value["nom_categorie"] . '</option>';
+    }
+}

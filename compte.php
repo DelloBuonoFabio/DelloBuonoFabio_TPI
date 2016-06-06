@@ -46,6 +46,9 @@ if (isset($_REQUEST["DeleteUser"])) {
         </div>
         <div class="container">
             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Mes Informations Personnels</h3>
+                </div>
                 <div class="panel-body">
                     <h4>Nom</h4><p><?php echo $_SESSION['user_logged']['nom_utilisateur'] ?></p> 
                     <h4>Prénom</h4><p><?php echo $_SESSION['user_logged']['prenom_utilisateur'] ?></p> 

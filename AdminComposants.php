@@ -3,18 +3,11 @@ session_start();
 require_once 'application.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="./images/divers/bootstrap.ico">
-        <link href="BootStrap/css/bootstrap.css" rel="stylesheet">
-        <link href="./css/style.css" rel="stylesheet">
-        <title>AdminComposants</title>
+        <?php
+        echo AllMeta();
+        ?>
     </head>
     <body>  
         <!-- MENU -->                
@@ -26,11 +19,25 @@ require_once 'application.php';
             </div>
         </div>
         <div class="container">
-            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Administration Composants</h3>
+                </div>
+                <div class="panel-body">
+                    <h3>Afficher les Composants</h3>
+                    <select class="form-control">
+                        <option value="*">Choisir une catégorie...</option>
+                        <?php
+                        echo GetCategorrie();
+                        ?>
+                    </select>
+                </div>
+            </div>
             <!-- FOOTER --> 
             <footer>
-                <p class="pull-right"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
-                <p>&copy; Dello Buono Fabio</p>
+                <?php
+                echo AllFooter()
+                ?>
             </footer>
         </div>
         <!-- Bootstrap script  -->
