@@ -7,12 +7,23 @@ if (isset($_REQUEST["btnAfficher"])) {
     $ThisCategorie = filter_input(INPUT_POST, 'selectCat', FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
-if(isset($_REQUEST["AddComponent"])){
+if (isset($_REQUEST["AddComponent"])) {
     $nameComponent = filter_input(INPUT_POST, 'nameComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $descriptionComponent = filter_input(INPUT_POST, 'descrptionComponent', FILTER_SANITIZE_SPECIAL_CHARS);
-    
+    $image = (isset($_REQUEST["pic"]) ? $_REQUEST["pic"] : "");
     $priceComponent = filter_input(INPUT_POST, 'priceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $categorieComponent = filter_input(INPUT_POST, 'CatComponent', FILTER_SANITIZE_SPECIAL_CHARS);
+    $tempo = filter_input(INPUT_POST, 'pic', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $repertoireDestination = "./images/composant/" . $categorieComponent;
+
+    if (move_uploaded_file($repertoireDestination, $tempo)) {
+        
+        AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
+        echo "OK";
+    }  else {
+        ECHO "nop";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -67,7 +78,7 @@ if(isset($_REQUEST["AddComponent"])){
             <div class="modal fade" id="ModalAjouter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form action="#" method="post" id="registerForm">
+                        <form action="#" method="post" id="registerForm" enctype="multipart/form-data">
                             <div class="modal-header">
                                 <h3>Ajouter un composant</h3>
                             </div>
@@ -77,7 +88,7 @@ if(isset($_REQUEST["AddComponent"])){
                                 <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"></textarea>
                                 </br>
                                 <label class="btn btn-default btn-file">
-                                    Image Composant<input type="file" style="display: none;">
+                                    Image Composant<input type="file" style="display: none;" name="pic" id="pic">
                                 </label>
                                 <div class="input-group input-group-cm form-group">
                                     <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent">

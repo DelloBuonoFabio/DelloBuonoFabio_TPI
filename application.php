@@ -306,3 +306,31 @@ function ShowComponent($categorieName) {
     }
     echo '</table>';
 }
+
+function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $priceComponent, $categorieComponent){
+    static $maRequete = null;
+    $error = "";
+
+    //Prépaper la requête lors du premier appel
+    if ($maRequete == null) {
+        $maRequete = ConnectDB()->prepare("INSERT INTO t_composant (nom_composant, prenom_composant, photo_composant, prix_composant, id_categorie)
+                                                VALUES             (            ?,                ?,               ?,              ?,            ?)");
+    }
+
+    try {
+        //Enregistrer les données
+        $maRequete->execute(array($nameComponent, $descrptionComponent, $imgComponent, $priceComponent, $categorieComponent));
+        $error = "OK";
+    } catch (Exception $e) {
+        $error = "error";
+    }
+    return $error;
+}
+
+function GetIdByName($categorieComponent){
+    $dtb = ConnectDB();
+    $maRequete = $dtb->prepare('SELECT id_categorie FROM t_categorie WHERE nom_categorie = "?"');
+    $maRequete->execute(array($categorieComponent));
+    $data = $maRequete->fetchColumn();
+    return $data;
+}
