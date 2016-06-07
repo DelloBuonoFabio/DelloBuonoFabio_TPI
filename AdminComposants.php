@@ -9,17 +9,19 @@ if (isset($_REQUEST["AddComponent"])) {
     $image = (isset($_REQUEST["pic"]) ? $_REQUEST["pic"] : "");
     $priceComponent = filter_input(INPUT_POST, 'priceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $categorieComponent = filter_input(INPUT_POST, 'CatComponent', FILTER_SANITIZE_SPECIAL_CHARS);
-    $tempo = filter_input(INPUT_POST, 'pic', FILTER_SANITIZE_SPECIAL_CHARS);
-
-    $repertoireDestination = "./images/composant/" . $categorieComponent;
-
-    if (move_uploaded_file($repertoireDestination, $tempo)) {
-
-        AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
-        echo "OK";
-    } else {
-        ECHO "nop";
-    }
+    $nomDestination = "default.png";
+    AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
+    ////    $tempo = filter_input(INPUT_POST, 'pic', FILTER_SANITIZE_SPECIAL_CHARS);
+//
+//    $repertoireDestination = "./images/composant/" . $categorieComponent;
+//
+//    if (move_uploaded_file($repertoireDestination, $tempo)) {
+//
+//        AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
+//        echo "OK";
+//    } else {
+//        ECHO "nop";
+//    }
 }
 
 if (isset($_REQUEST["btnAfficher"])) {
@@ -37,13 +39,17 @@ if (isset($_GET['idComponent'])) {
     $idComponent = "";
 }
 
-if (isset($_REQUEST["UpdateComponent"]))
-{
+if (isset($_REQUEST["UpdateComponent"])){
     $NewNameComponent = filter_input(INPUT_POST, 'NewNameComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $NewDescriptionComponent = filter_input(INPUT_POST, 'NewDescriptionComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $NewPriceComponent = filter_input(INPUT_POST, 'NewPriceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $NewCategorieComponent = filter_input(INPUT_POST, 'NewCatComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     UpdateComponentInformation($_SESSION['ThisComponent']['id_composant'], $NewNameComponent, $NewDescriptionComponent, $NewPriceComponent, GetIdByName($NewCategorieComponent));
+}
+
+if (isset($_REQUEST["DeleteComponent"])){
+    DeletComponentById(GetIdByName($_SESSION['ThisComponent']['id_composant']));
+    header("location:AdminComposants.php");
 }
 ?>
 <!DOCTYPE html>
@@ -122,9 +128,9 @@ if (isset($_REQUEST["UpdateComponent"]))
                                 </br>
                                 <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"></textarea>
                                 </br>
-                                <label class="btn btn-default btn-file">
+<!--                                <label class="btn btn-default btn-file">
                                     Image Composant<input type="file" style="display: none;" name="pic" id="pic">
-                                </label>
+                                </label>-->
                                 <div class="input-group input-group-cm form-group">
                                     <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent">
                                     <span class="input-group-addon" id="basic-addon2"><span>CHF</span></span>

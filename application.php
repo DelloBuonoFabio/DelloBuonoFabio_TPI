@@ -311,7 +311,7 @@ function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $pric
 
     //Prépaper la requête lors du premier appel
     if ($maRequete == null) {
-        $maRequete = ConnectDB()->prepare("INSERT INTO t_composant (nom_composant, prenom_composant, photo_composant, prix_composant, id_categorie)
+        $maRequete = ConnectDB()->prepare("INSERT INTO t_composant (nom_composant, description_composant, photo_composant, prix_composant, id_categorie)
                                                 VALUES             (            ?,                ?,               ?,              ?,            ?)");
     }
 
@@ -373,4 +373,10 @@ function UpdateComponentInformation($currentComponent, $newNameComponent, $newDe
     $maRequete->execute(array($currentComponent)); 
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);
     return $data;
+}
+
+function DeletComponentById($idComponent){
+    $dtb = connectDB();
+    $MaRequete = $dtb->prepare('DELETE FROM t_composant WHERE id_composant=' . $idComponent . '');
+    $MaRequete->execute(array());
 }
