@@ -2,10 +2,13 @@
 session_start();
 require_once 'application.php';
 
+$button = "";
 if (isset($_GET['idUser'])) {
     $idUser = $_GET['idUser'];
+    $button = '<button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer supprimer ce compte</button>';
 } else {
     $idUser = "";
+    $button = "";
 }
 if (isset($_REQUEST["DeleteUser"])) {
     DeletUserById($idUser);
@@ -34,6 +37,9 @@ if (isset($_REQUEST["DeleteUser"])) {
                 </tr>
                 <?php ShowUser() ?>
             </table>
+            <?php
+            echo $button;
+            ?>
             <!-- Modal Security -->
             <div class="modal fade" id="ModalSecurity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -50,7 +56,6 @@ if (isset($_REQUEST["DeleteUser"])) {
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer supprimer ce compte</button>
             <!-- FOOTER --> 
             <footer>
                 <?php
