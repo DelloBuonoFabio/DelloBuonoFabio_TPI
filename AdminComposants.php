@@ -48,7 +48,7 @@ if (isset($_REQUEST["UpdateComponent"])){
 }
 
 if (isset($_REQUEST["DeleteComponent"])){
-    DeletComponentById(GetIdByName($_SESSION['ThisComponent']['id_composant']));
+    DeletComponentById($_SESSION['ThisComponent']['id_composant']);
     header("location:AdminComposants.php");
 }
 ?>
