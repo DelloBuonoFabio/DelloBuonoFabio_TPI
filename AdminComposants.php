@@ -156,6 +156,7 @@ if (isset($_GET['idComponent'])) {
                                     <span class="input-group-addon" id="basic-addon2"><span>CHF</span></span>
                                 </div> 
                                 <select class="form-control" name="CatComponent">
+                                    <option value="<?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?>"><?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?></option>
                                     <?php
                                     echo GetCategorrie();
                                     ?>
