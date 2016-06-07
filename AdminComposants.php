@@ -37,6 +37,14 @@ if (isset($_GET['idComponent'])) {
     $idComponent = "";
 }
 
+if (isset($_REQUEST["UpdateComponent"]))
+{
+    $NewNameComponent = filter_input(INPUT_POST, 'NewNameComponent', FILTER_SANITIZE_SPECIAL_CHARS);
+    $NewDescriptionComponent = filter_input(INPUT_POST, 'NewDescriptionComponent', FILTER_SANITIZE_SPECIAL_CHARS);
+    $NewPriceComponent = filter_input(INPUT_POST, 'NewPriceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
+    $NewCategorieComponent = filter_input(INPUT_POST, 'NewCatComponent', FILTER_SANITIZE_SPECIAL_CHARS);
+    UpdateComponentInformation($_SESSION['ThisComponent']['id_composant'], $NewNameComponent, $NewDescriptionComponent, $NewPriceComponent, GetIdByName($NewCategorieComponent));
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -98,7 +106,7 @@ if (isset($_GET['idComponent'])) {
                 $button = '<button type="button" class="btn btn-default btn-sm btn-block" id="btnModifier" name="btnModifier" data-toggle="modal" data-target="#ModalOption">Modifier le composant</button>';
             }
             echo $button;
-            echo $error;
+            echo $error;   
             ?>
 
             <!-- Modal Ajouter -->
@@ -144,18 +152,18 @@ if (isset($_GET['idComponent'])) {
                                 <h3>Modification/Suppression</h3>
                             </div>
                             <div class="modal-body">
-                                <input type="text" class="form-control" placeholder="Nom Composant" required aria-describedby="basic-addon2" name="nameComponent" value="<?php echo $_SESSION['ThisComponent']['nom_composant'] ?>">
+                                <input type="text" class="form-control" placeholder="Nom Composant" required aria-describedby="basic-addon2" name="NewNameComponent" value="<?php echo $_SESSION['ThisComponent']['nom_composant'] ?>">
                                 </br>
-                                <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"><?php echo $_SESSION['ThisComponent']['description_composant'] ?></textarea>
+                                <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="NewDescriptionComponent"><?php echo $_SESSION['ThisComponent']['description_composant'] ?></textarea>
                                 </br>
                                 <!--IMAGE-->
                                 <img src="images/composant/<?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?>/<?php echo $_SESSION['ThisComponent']['photo_composant'] ?>" class="img-rounded"/>
                                 </br>
                                 <div class="input-group input-group-cm form-group" id="marginTopInput">
-                                    <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent" value="<?php echo $_SESSION['ThisComponent']['prix_composant'] ?>">
+                                    <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="NewPriceComponent" value="<?php echo $_SESSION['ThisComponent']['prix_composant'] ?>">
                                     <span class="input-group-addon" id="basic-addon2"><span>CHF</span></span>
                                 </div> 
-                                <select class="form-control" name="CatComponent">
+                                <select class="form-control" name="NewCatComponent">
                                     <option value="<?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?>"><?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?></option>
                                     <?php
                                     echo GetCategorrie();
@@ -164,8 +172,8 @@ if (isset($_GET['idComponent'])) {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
-                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Supprimer</button>
+                                <button type="submit" name="UpdateComponent" id="btnYellow" class="btn btn-primary">Modifier</button>
+                                <button type="submit" name="DeleteComponent" id="btnYellow" class="btn btn-primary">Supprimer</button>
                             </div>
                         </form>
                     </div>

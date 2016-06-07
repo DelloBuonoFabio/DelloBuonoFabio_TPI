@@ -327,10 +327,11 @@ function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $pric
 
 function GetIdByName($categorieComponent){
     $dtb = ConnectDB();
-    $maRequete = $dtb->prepare('SELECT id_categorie FROM t_categorie WHERE nom_categorie = "?"');
-    $maRequete->execute(array($categorieComponent));
+    $maRequete = $dtb->prepare('SELECT id_categorie FROM t_categorie WHERE nom_categorie = "' . $categorieComponent . '"');
+    $maRequete->execute(array());
     $data = $maRequete->fetchColumn();
     return $data;
+    
 }
 
 function DeletUserById($idUser){
@@ -353,5 +354,23 @@ function GetNameById($idComponent){
     $maRequete = $dtb->prepare('SELECT nom_categorie FROM t_categorie WHERE id_categorie = ?');
     $maRequete->execute(array($idComponent));
     $data = $maRequete->fetchColumn();
+    return $data;
+}
+
+function UpdateComponentInformation($currentComponent, $newNameComponent, $newDescriptionComponent, $newPrixComponent, $newCategorieComponent){
+    
+    $dtb = connectDB();
+
+    $sqlUpdate = ("UPDATE t_composant
+                SET nom_composant=?, description_composant=?, prix_composant=?, id_categorie=?
+                WHERE id_composant=?;");
+
+    $maRequete = $dtb->prepare($sqlUpdate);
+    $maRequete->execute(array($newNameComponent, $newDescriptionComponent, $newPrixComponent, $newCategorieComponent, $currentComponent));
+
+    $sql = "SELECT * FROM t_composant WHERE id_composant = ?";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array($currentComponent)); 
+    $data = $maRequete->fetch(PDO::FETCH_ASSOC);
     return $data;
 }
