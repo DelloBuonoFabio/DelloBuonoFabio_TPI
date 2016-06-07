@@ -2,11 +2,7 @@
 session_start();
 require_once 'application.php';
 
-
-if (isset($_REQUEST["btnAfficher"])) {
-    $ThisCategorie = filter_input(INPUT_POST, 'selectCat', FILTER_SANITIZE_SPECIAL_CHARS);
-}
-
+$error = "";
 if (isset($_REQUEST["AddComponent"])) {
     $nameComponent = filter_input(INPUT_POST, 'nameComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $descriptionComponent = filter_input(INPUT_POST, 'descrptionComponent', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -18,12 +14,27 @@ if (isset($_REQUEST["AddComponent"])) {
     $repertoireDestination = "./images/composant/" . $categorieComponent;
 
     if (move_uploaded_file($repertoireDestination, $tempo)) {
-        
+
         AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
         echo "OK";
-    }  else {
+    } else {
         ECHO "nop";
     }
+}
+
+if (isset($_REQUEST["btnAfficher"])) {
+    $ThisCategorie = filter_input(INPUT_POST, 'selectCat', FILTER_SANITIZE_SPECIAL_CHARS);
+    if (isset($_GET['idComponent'])) {
+        $_GET['idComponent'] = "";
+    } else {
+        
+    }
+}
+
+if (isset($_GET['idComponent'])) {
+    $idComponent = $_GET['idComponent'];
+} else {
+    $idComponent = "";
 }
 ?>
 <!DOCTYPE html>
@@ -60,7 +71,7 @@ if (isset($_REQUEST["AddComponent"])) {
                             ?>
                         </select>
                         </br>
-                        <button type="submit" class="btn btn-default btn-cm btn-block" name='btnAfficher'>Afficher</button>
+                        <a href="?idComponent="><button type="submit" class="btn btn-default btn-cm btn-block" name='btnAfficher'>Afficher</button></a>
                     </form>
                     </br>
                     <?php
@@ -73,6 +84,21 @@ if (isset($_REQUEST["AddComponent"])) {
                 </div>
             </div>
             <button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalAjouter">Ajouter un composant</button>
+            <?php
+            if ($idComponent == "") {
+                $button = "";
+            } else {
+                $data = ShowThisComponent($idComponent);
+                if ($data != false) {
+                    $_SESSION['ThisComponent'] = $data;
+                } else {
+                    $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Un problème est survenu</div>';
+                }
+                $button = '<button type="button" class="btn btn-default btn-sm btn-block" id="btnModifier" name="btnModifier" data-toggle="modal" data-target="#ModalOption">Modifier le composant</button>';
+            }
+            echo $button;
+            echo $error;
+            ?>
 
             <!-- Modal Ajouter -->
             <div class="modal fade" id="ModalAjouter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -108,6 +134,39 @@ if (isset($_REQUEST["AddComponent"])) {
                     </div>
                 </div>
             </div>
+            <!-- Modal Option -->
+            <div class="modal fade" id="ModalOption" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="#" method="post" id="registerForm">
+                            <div class="modal-header">
+                                <h3>Modification/Suppression</h3>
+                            </div>
+                            <div class="modal-body">
+                                <input type="text" class="form-control" placeholder="Nom Composant" required aria-describedby="basic-addon2" name="nameComponent" value="<?php echo $_SESSION['ThisComponent']['nom_composant'] ?>">
+                                </br>
+                                <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"><?php echo $_SESSION['ThisComponent']['description_composant'] ?></textarea>
+                                </br>
+                                <!--IMAGE-->
+                                <div class="input-group input-group-cm form-group">
+                                    <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent" value="<?php echo $_SESSION['ThisComponent']['prix_composant'] ?>">
+                                    <span class="input-group-addon" id="basic-addon2"><span>CHF</span></span>
+                                </div> 
+                                <select class="form-control" name="CatComponent">
+                                    <?php
+                                    echo GetCategorrie();
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Supprimer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER --> 
             <footer>
                 <?php
@@ -129,6 +188,9 @@ if (isset($_REQUEST["AddComponent"])) {
                 $(this).find('span').toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
                 $(this).parent(".panel").find(".panel-body").first().slideToggle();
             });
+        </script>
+        <script>
+            $("#btnModifier").trigger("click");
         </script>
     </body>
 </html>

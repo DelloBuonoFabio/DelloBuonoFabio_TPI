@@ -286,20 +286,20 @@ function ShowComponent($categorieName) {
     } else {
         $tempo = '"';
     }
-    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = '. $tempo . $categorieName . $tempo . ' ';
+    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = '. $tempo . $categorieName . $tempo . ' ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $tableau[] = $data;
     }
 
-    //var_dump($return);
     echo '<table class="table">';
     foreach ($tableau as $value) {
         echo '<tr class="listeCategorie">';
         echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
         echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
         echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
+        echo '<td><a href="?idComponent=' . $value["id_composant"] . '"><button type="button" name="btnOption" ><span class="glyphicon glyphicon-cog"></span></button></a></td>';
         echo '</tr>';
     }
     echo '</table>';
@@ -337,4 +337,13 @@ function DeletUserById($idUser){
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_utilisateur WHERE id_utilisateur=?');
     $MaRequete->execute(array($idUser));
+}
+
+function ShowThisComponent($idComponent) {
+    $dtb = ConnectDB();
+    $sql = "SELECT * FROM t_composant WHERE id_composant = ? ";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array($idComponent));
+    $data = $maRequete->fetch(PDO::FETCH_ASSOC);
+    return $data;
 }
