@@ -1,6 +1,15 @@
 <?php
 session_start();
 require_once 'application.php';
+
+if (isset($_GET['idUser'])) {
+    $idUser = $_GET['idUser'];
+} else {
+    $idUser = "";
+}
+if (isset($_REQUEST["DeleteUser"])) {
+    DeletUserById($idUser);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,7 +30,7 @@ require_once 'application.php';
         <div class="container">
             <table class="table">
                 <tr>
-                    <th>#</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Admin</th><th>Option</th>
+                    <th>Nom</th><th>Prénom</th><th>Email</th><th>Admin</th><th>Option</th>
                 </tr>
                 <?php ShowUser() ?>
             </table>
@@ -29,18 +38,19 @@ require_once 'application.php';
             <div class="modal fade" id="ModalSecurity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form action="compte.php" method="post" id="registerForm">
+                        <form action="#" method="post" id="registerForm">
                             <div class="modal-header">
-                                <div class="alert alert-danger" role="alert"><strong>Attention!</strong> Voulez-vous vraiment supprimer votre compte ?</div>
+                                <div class="alert alert-danger" role="alert"><strong>Attention!</strong> Voulez-vous vraiment supprimer ce compte ?</div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Supprimer</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer supprimer ce compte</button>
             <!-- FOOTER --> 
             <footer>
                 <?php

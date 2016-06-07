@@ -229,13 +229,11 @@ function ShowUser() {
 
     foreach ($return as $value) {
         echo '<tr>';
-        echo '<th>' . $value["id_utilisateur"] . '</th>';
         echo '<td>' . $value["nom_utilisateur"] . '</td>';
         echo '<td>' . $value["prenom_utilisateur"] . '</td>';
         echo '<td>' . $value["email_utilisateur"] . '</td>';
         echo '<td>' . $value["estAdmin"] . '</td>';
-        echo '<td><a href="AdminUtilisateur.php?idUser=' . $value["id_utilisateur"] . '"><button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer le compte</button></a></td>';
-        echo '<td><a href="AdminUtilisateur.php?idUser=' . $value["id_utilisateur"] . '" data-toggle="modal" data-target="#ModalSecurity"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        echo '<td><a href="AdminUtilisateur.php?idUser=' . $value["id_utilisateur"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
         echo '</tr>';
     }
 }
@@ -333,4 +331,10 @@ function GetIdByName($categorieComponent){
     $maRequete->execute(array($categorieComponent));
     $data = $maRequete->fetchColumn();
     return $data;
+}
+
+function DeletUserById($idUser){
+    $dtb = connectDB();
+    $MaRequete = $dtb->prepare('DELETE FROM t_utilisateur WHERE id_utilisateur=?');
+    $MaRequete->execute(array($idUser));
 }
