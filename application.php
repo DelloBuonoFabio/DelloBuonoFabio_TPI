@@ -347,3 +347,11 @@ function ShowThisComponent($idComponent) {
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);
     return $data;
 }
+
+function GetNameById($idComponent){
+    $dtb = ConnectDB();
+    $maRequete = $dtb->prepare('SELECT nom_categorie FROM t_categorie WHERE id_categorie = ?');
+    $maRequete->execute(array($idComponent));
+    $data = $maRequete->fetchColumn();
+    return $data;
+}

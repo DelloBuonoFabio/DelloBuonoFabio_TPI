@@ -36,6 +36,7 @@ if (isset($_GET['idComponent'])) {
 } else {
     $idComponent = "";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -148,7 +149,9 @@ if (isset($_GET['idComponent'])) {
                                 <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"><?php echo $_SESSION['ThisComponent']['description_composant'] ?></textarea>
                                 </br>
                                 <!--IMAGE-->
-                                <div class="input-group input-group-cm form-group">
+                                <img src="images/composant/<?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?>/<?php echo $_SESSION['ThisComponent']['photo_composant'] ?>" class="img-rounded"/>
+                                </br>
+                                <div class="input-group input-group-cm form-group" id="marginTopInput">
                                     <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent" value="<?php echo $_SESSION['ThisComponent']['prix_composant'] ?>">
                                     <span class="input-group-addon" id="basic-addon2"><span>CHF</span></span>
                                 </div> 
