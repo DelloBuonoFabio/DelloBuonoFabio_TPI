@@ -40,14 +40,14 @@ function menu() {
                 "configuration.php" => 'Configuration <span class="glyphicon glyphicon-cog"></span>',
                 "AdminUtilisateur.php" => 'Admin. Utilisateur <span class="glyphicon glyphicon-user"></span>',
                 "AdminComposants.php" => 'Admin. Composants <span class="glyphicon glyphicon-tags"></span>',
-                "deconnexion.php" => 'Logout <span class="glyphicon glyphicon-remove"></span>'
+                "deconnexion.php" => 'Deconnexion <span class="glyphicon glyphicon-remove"></span>'
             );
         } else {
             $menu = array("index.php" => 'Home <span class="glyphicon glyphicon-home"></span>',
                 "hardware.php" => 'HardWare <span class="glyphicon glyphicon-wrench"></span>',
                 "configuration.php" => 'Configuration <span class="glyphicon glyphicon-cog"></span>',
                 "compte.php" => 'Mon Compte <span class="glyphicon glyphicon-user"></span>',
-                "deconnexion.php" => 'Logout <span class="glyphicon glyphicon-remove"></span>'
+                "deconnexion.php" => 'Deconnexion <span class="glyphicon glyphicon-remove"></span>'
             );
         }
     }
