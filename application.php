@@ -160,7 +160,7 @@ function ShowCategorie() {
     echo '<table class="table">';
     foreach ($return as $value) {
         echo '<tr class="listeCategorie">';
-        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="components.php?categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p></td>';
+        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="composant.php?categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p></td>';
 
         echo '</tr>';
     }
