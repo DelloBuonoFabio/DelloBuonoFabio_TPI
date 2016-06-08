@@ -3,16 +3,42 @@ session_start();
 require_once 'application.php';
 
 $error = "";
+$fileError = "";
 if (isset($_REQUEST["AddComponent"])) {
     $nameComponent = filter_input(INPUT_POST, 'nameComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $descriptionComponent = filter_input(INPUT_POST, 'descrptionComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $image = (isset($_REQUEST["pic"]) ? $_REQUEST["pic"] : "");
     $priceComponent = filter_input(INPUT_POST, 'priceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $categorieComponent = filter_input(INPUT_POST, 'CatComponent', FILTER_SANITIZE_SPECIAL_CHARS);
-    $nomDestination = "default.png";
-    AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
-    ////    $tempo = filter_input(INPUT_POST, 'pic', FILTER_SANITIZE_SPECIAL_CHARS);
-//
+
+    $target = "./images/composant/" . $categorieComponent . "/";
+    $target_file = $target . basename($_FILES["fileToUpload"]["name"]);
+    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+// Check if image file is a actual image or fake image
+    if (isset($_POST["AddComponent"])) {
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        if ($check !== false) {
+            // Check if file already exists
+            if (file_exists($target_file)) {
+//                echo "Sorry, file already exists.";
+                $fileError = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Cette images se trouve déjà dans la DB !</div>';
+            } else {
+                if (move_uploaded_file($_FILES["fileToUpload"]["name"], $target)) {
+                    AddComponent($nameComponent, $descriptionComponent, $_FILES["fileToUpload"]["name"], $priceComponent, GetIdByName($categorieComponent));
+                    $fileError = '<div class="alert alert-success" role="alert"><strong>Bravo!</strong> Tout les nouvelle données se trouvent dans la DB !</div>';
+                } else {
+                    $fileError = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> L\'UpLoad de l\'image n\'a pas fonctionné !</div>';
+                }
+            }
+        } else {
+            $nomDestination = "default.png";
+            AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
+            $fileError = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Votre composant de contien pas d\'image, mais il a été quand même ajouté !</div>';
+        }
+    }
+
+    //AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
+    //    $tempo = filter_input(INPUT_POST, 'pic', FILTER_SANITIZE_SPECIAL_CHARS);
 //    $repertoireDestination = "./images/composant/" . $categorieComponent;
 //
 //    if (move_uploaded_file($repertoireDestination, $tempo)) {
@@ -39,7 +65,7 @@ if (isset($_GET['idComponent'])) {
     $idComponent = "";
 }
 
-if (isset($_REQUEST["UpdateComponent"])){
+if (isset($_REQUEST["UpdateComponent"])) {
     $NewNameComponent = filter_input(INPUT_POST, 'NewNameComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $NewDescriptionComponent = filter_input(INPUT_POST, 'NewDescriptionComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $NewPriceComponent = filter_input(INPUT_POST, 'NewPriceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -47,7 +73,7 @@ if (isset($_REQUEST["UpdateComponent"])){
     UpdateComponentInformation($_SESSION['ThisComponent']['id_composant'], $NewNameComponent, $NewDescriptionComponent, $NewPriceComponent, GetIdByName($NewCategorieComponent));
 }
 
-if (isset($_REQUEST["DeleteComponent"])){
+if (isset($_REQUEST["DeleteComponent"])) {
     DeletComponentById($_SESSION['ThisComponent']['id_composant']);
     header("location:AdminComposants.php");
 }
@@ -112,7 +138,8 @@ if (isset($_REQUEST["DeleteComponent"])){
                 $button = '<button type="button" class="btn btn-default btn-sm btn-block" id="btnModifier" name="btnModifier" data-toggle="modal" data-target="#ModalOption">Modifier le composant</button>';
             }
             echo $button;
-            echo $error;   
+            echo $error;
+            echo $fileError;
             ?>
 
             <!-- Modal Ajouter -->
@@ -128,22 +155,23 @@ if (isset($_REQUEST["DeleteComponent"])){
                                 </br>
                                 <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"></textarea>
                                 </br>
-<!--                                <label class="btn btn-default btn-file">
-                                    Image Composant<input type="file" style="display: none;" name="pic" id="pic">
-                                </label>-->
-                                <div class="input-group input-group-cm form-group">
+                                <label class="btn btn-default btn-file">
+                                    Image Composant<input type="file" style="display: none;" name="fileToUpload" id="fileToUpload">
+                                </label>
+                                <div class="input-group input-group ">
                                     <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent">
                                     <span class="input-group-addon" id="basic-addon2"><span>CHF</span></span>
                                 </div> 
+                                </br>
                                 <select class="form-control" name="CatComponent">
                                     <?php
                                     echo GetCategorrie();
                                     ?>
                                 </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="AddComponent" id="btnYellow" class="btn btn-primary">Confirmer</button>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                    <button type="submit" name="AddComponent" id="btnYellow" class="btn btn-primary">Confirmer</button>
+                                </div>
                             </div>
                         </form>
                     </div>
