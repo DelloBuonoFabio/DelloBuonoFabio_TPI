@@ -11,11 +11,13 @@ if (isset($_REQUEST["AddComponent"])) {
     $priceComponent = filter_input(INPUT_POST, 'priceComponent', FILTER_SANITIZE_SPECIAL_CHARS);
     $categorieComponent = filter_input(INPUT_POST, 'CatComponent', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $target = "./images/composant/" . $categorieComponent . "/";
+    $target = "images/composant/" . $categorieComponent . "/" . $_FILES["fileToUpload"]["name"];
     $target_file = $target . basename($_FILES["fileToUpload"]["name"]);
     $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
     if (isset($_POST["AddComponent"])) {
+        
+        var_dump($_FILES["fileToUpload"]["name"]);
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         if ($check !== false) {
             // Check if file already exists
@@ -23,7 +25,7 @@ if (isset($_REQUEST["AddComponent"])) {
 //                echo "Sorry, file already exists.";
                 $fileError = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Cette images se trouve déjà dans la DB !</div>';
             } else {
-                if (move_uploaded_file($_FILES["fileToUpload"]["name"], $target)) {
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target)) {
                     AddComponent($nameComponent, $descriptionComponent, $_FILES["fileToUpload"]["name"], $priceComponent, GetIdByName($categorieComponent));
                     $fileError = '<div class="alert alert-success" role="alert"><strong>Bravo!</strong> Tout les nouvelle données se trouvent dans la DB !</div>';
                 } else {
@@ -36,18 +38,6 @@ if (isset($_REQUEST["AddComponent"])) {
             $fileError = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Votre composant de contien pas d\'image, mais il a été quand même ajouté !</div>';
         }
     }
-
-    //AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
-    //    $tempo = filter_input(INPUT_POST, 'pic', FILTER_SANITIZE_SPECIAL_CHARS);
-//    $repertoireDestination = "./images/composant/" . $categorieComponent;
-//
-//    if (move_uploaded_file($repertoireDestination, $tempo)) {
-//
-//        AddComponent($nameComponent, $descriptionComponent, $nomDestination, $priceComponent, GetIdByName($categorieComponent));
-//        echo "OK";
-//    } else {
-//        ECHO "nop";
-//    }
 }
 
 if (isset($_REQUEST["btnAfficher"])) {
@@ -156,7 +146,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                                 <textarea style="width: 100%; resize:none; height: 100px;" class="form-control" name="descrptionComponent"></textarea>
                                 </br>
                                 <label class="btn btn-default btn-file">
-                                    Image Composant<input type="file" style="display: none;" name="fileToUpload" id="fileToUpload">
+                                    <input type="file" name="fileToUpload" id="fileToUpload" value="img" accept="image/*">
                                 </label>
                                 <div class="input-group input-group ">
                                     <input type="text" class="form-control" placeholder="Prix Composant " required aria-describedby="basic-addon2" name="priceComponent">
