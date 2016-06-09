@@ -198,6 +198,7 @@ function ShowConfiguration() {
     }
     $tempo = 0;
 
+
     foreach ($return as $value) {
         $tempo ++;
         echo '<div class="panel-heading">
@@ -207,10 +208,16 @@ function ShowConfiguration() {
                 </div>
                 <!-- Contenue de la liste -->
                 <div class="panel-body" class="texte-configuration">';
-        echo '<img src="images/img_configuration/Img' . $tempo . '.gif" alt="..." class="img-thumbnail">';
-
-        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un/e ' . $value["nom_categorie"] . '</h4></a>
-                </div>';
+        echo '<img src="<?php if (empty($_SESSION["Processeur"])) { echo "images/composant/default.png"; } ?>" class="img-thumbnail" style="width: 80px;"/>;';
+//        if (empty($_SESSION["Processeur"])) {
+//            echo 'images/composant/default.png';
+//        } else {
+//            echo 'images/composant/' . $value["nom_categorie"] . '/$_SESSION["nom_categorie"]["photo_composant"]';
+//        }
+//        echo ' class="img-thumbnail">';
+//
+//        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un/e ' . $value["nom_categorie"] . '</h4></a>
+//                </div>';
     }
 }
 
@@ -374,4 +381,27 @@ function DeletComponentById($idComponent) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_composant WHERE id_composant=' . $idComponent . '');
     $MaRequete->execute(array());
+}
+
+function ShowThiscategorieWithButton($categorieName) {
+    $dtb = ConnectDB();
+    $location = "./images/composant/";
+    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+    echo '<form action="#" method="post">';
+    echo '<table class="table">';
+    foreach ($return as $value) {
+        echo '<tr class="listeCategorie">';
+        echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
+        echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
+        echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
+        echo '<td><button type="submit" class="btn btn-default btn-cm btn-block" name=' . $value["nom_categorie"] . '>Valider</button></td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    echo '</form>';
 }

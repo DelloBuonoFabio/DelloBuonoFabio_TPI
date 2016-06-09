@@ -2,7 +2,13 @@
 session_start();
 require_once 'application.php';
 
-$categorieName = $_GET['categorie'];
+$categorieName = $_GET['Categorie'];
+
+if(isset($_REQUEST["$categorieName"]))
+{
+    $_SESSION["$categorieName"] = ShowThisComponent(GetIdByName($categorieName));
+    header('Location: configuration.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -23,7 +29,7 @@ $categorieName = $_GET['categorie'];
         <div class="container">
             <?php
             if (!empty($categorieName)) {
-                ShowThisCategorie($categorieName);
+                ShowThiscategorieWithButton($categorieName);
             } else {
                 echo "error";
             }
