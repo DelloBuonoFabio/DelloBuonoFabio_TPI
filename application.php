@@ -200,21 +200,17 @@ function ShowConfiguration() {
 
     foreach ($return as $value) {
         $tempo ++;
-        echo '<div class="panel panel-default panel-dropdown">
-                <div class="panel-heading">
+        echo '<div class="panel-heading">
                     <h2 class="panel-title">';
-
         echo $value["nom_categorie"];
-        echo '<span class="pull-right glyphicon glyphicon-triangle-top"></span>
-                    </h2>
+        echo '</h2>
                 </div>
                 <!-- Contenue de la liste -->
                 <div class="panel-body" class="texte-configuration">';
         echo '<img src="images/img_configuration/Img' . $tempo . '.gif" alt="..." class="img-thumbnail">';
 
-        echo '<a href="components.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un/e ' . $value["nom_categorie"] . '</h4></a>
-                </div>
-            </div>';
+        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un/e ' . $value["nom_categorie"] . '</h4></a>
+                </div>';
     }
 }
 
@@ -286,7 +282,7 @@ function ShowComponent($categorieName) {
     } else {
         $tempo = '"';
     }
-    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = '. $tempo . $categorieName . $tempo . ' ';
+    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = ' . $tempo . $categorieName . $tempo . ' ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
@@ -305,7 +301,7 @@ function ShowComponent($categorieName) {
     echo '</table>';
 }
 
-function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $priceComponent, $categorieComponent){
+function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $priceComponent, $categorieComponent) {
     static $maRequete = null;
     $error = "";
 
@@ -325,16 +321,15 @@ function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $pric
     return $error;
 }
 
-function GetIdByName($categorieComponent){
+function GetIdByName($categorieComponent) {
     $dtb = ConnectDB();
     $maRequete = $dtb->prepare('SELECT id_categorie FROM t_categorie WHERE nom_categorie = "' . $categorieComponent . '"');
     $maRequete->execute(array());
     $data = $maRequete->fetchColumn();
     return $data;
-    
 }
 
-function DeletUserById($idUser){
+function DeletUserById($idUser) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_utilisateur WHERE id_utilisateur=?');
     $MaRequete->execute(array($idUser));
@@ -349,7 +344,7 @@ function ShowThisComponent($idComponent) {
     return $data;
 }
 
-function GetNameById($idComponent){
+function GetNameById($idComponent) {
     $dtb = ConnectDB();
     $maRequete = $dtb->prepare('SELECT nom_categorie FROM t_categorie WHERE id_categorie = ?');
     $maRequete->execute(array($idComponent));
@@ -357,8 +352,8 @@ function GetNameById($idComponent){
     return $data;
 }
 
-function UpdateComponentInformation($currentComponent, $newNameComponent, $newDescriptionComponent, $newPrixComponent, $newCategorieComponent){
-    
+function UpdateComponentInformation($currentComponent, $newNameComponent, $newDescriptionComponent, $newPrixComponent, $newCategorieComponent) {
+
     $dtb = connectDB();
 
     $sqlUpdate = ("UPDATE t_composant
@@ -370,12 +365,12 @@ function UpdateComponentInformation($currentComponent, $newNameComponent, $newDe
 
     $sql = "SELECT * FROM t_composant WHERE id_composant = ?";
     $maRequete = $dtb->prepare($sql);
-    $maRequete->execute(array($currentComponent)); 
+    $maRequete->execute(array($currentComponent));
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);
     return $data;
 }
 
-function DeletComponentById($idComponent){
+function DeletComponentById($idComponent) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_composant WHERE id_composant=' . $idComponent . '');
     $MaRequete->execute(array());

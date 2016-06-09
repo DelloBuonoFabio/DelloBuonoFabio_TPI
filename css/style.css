@@ -167,3 +167,7 @@ h4{
 #marginTopInput{
     margin-top: 20px;
 }
+
+#h4Border{
+    border-bottom: 1px solid #808080;
+}
