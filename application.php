@@ -196,28 +196,45 @@ function ShowConfiguration() {
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    $tempo = 0;
-
-
+    
     foreach ($return as $value) {
-        $tempo ++;
+        $text ="";
+        $img = "images/composant/default.png";
+        $prix = "0";
+        $nom = "";
+        if (isset($_SESSION[$value["nom_categorie"]])) {
+            $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
+            $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
+            $nom = $_SESSION[$value["nom_categorie"]]["nom_composant"];
+        } else {
+            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+        }
+        echo '<div>';
         echo '<div class="panel-heading">
-                    <h2 class="panel-title">';
+                    <h3 class="panel-title">';
         echo $value["nom_categorie"];
-        echo '</h2>
+        echo '</h3>
                 </div>
-                <!-- Contenue de la liste -->
                 <div class="panel-body" class="texte-configuration">';
-        echo '<img src="<?php if (empty($_SESSION["Processeur"])) { echo "images/composant/default.png"; } ?>" class="img-thumbnail" style="width: 80px;"/>;';
-//        if (empty($_SESSION["Processeur"])) {
-//            echo 'images/composant/default.png';
-//        } else {
-//            echo 'images/composant/' . $value["nom_categorie"] . '/$_SESSION["nom_categorie"]["photo_composant"]';
-//        }
-//        echo ' class="img-thumbnail">';
-//
-//        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un/e ' . $value["nom_categorie"] . '</h4></a>
-//                </div>';
+        echo '<img src="' . $img . '" class="img-thumbnail" style="width: 80px;"/>';
+        echo $text;
+        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>' . $nom . '</h4></a>';
+        echo '<h4 id="h4Border">' . $prix . ' CHF</h4>';
+        echo '</div>';
+    }
+}
+
+function CreatSessionArray(){
+    $dtb = ConnectDB();
+    $sql = "Select nom_categorie from t_categorie where 1";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+    
+    foreach ($return as $value) {
+        echo '$_SESSION["' . $value["nom_categorie"] . '"] = []';
     }
 }
 
@@ -386,7 +403,7 @@ function DeletComponentById($idComponent) {
 function ShowThiscategorieWithButton($categorieName) {
     $dtb = ConnectDB();
     $location = "./images/composant/";
-    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
+    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie`, `id_composant` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
@@ -399,7 +416,7 @@ function ShowThiscategorieWithButton($categorieName) {
         echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
         echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
         echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
-        echo '<td><button type="submit" class="btn btn-default btn-cm btn-block" name=' . $value["nom_categorie"] . '>Valider</button></td>';
+        echo '<td><a href="composant.php?Categorie=' . $value["nom_categorie"] . '&&idComposant=' . $value["id_composant"] . '"><button type="button" class="btn btn-default btn-cm btn-block" name=' . $value["nom_categorie"] . '>Valider</button></td></a>';
         echo '</tr>';
     }
     echo '</table>';

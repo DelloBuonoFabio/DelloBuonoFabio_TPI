@@ -4,9 +4,9 @@ require_once 'application.php';
 
 $categorieName = $_GET['Categorie'];
 
-if(isset($_REQUEST["$categorieName"]))
-{
-    $_SESSION["$categorieName"] = ShowThisComponent(GetIdByName($categorieName));
+if (isset($_GET["idComposant"])) {
+    $composant = $_GET["idComposant"];
+    $_SESSION[$categorieName] = ShowThisComponent($composant);
     header('Location: configuration.php');
 }
 ?>

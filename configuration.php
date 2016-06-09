@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'application.php';
-$_SESSION["Configuration"] = []
+//echo CreatSessionArray();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,34 +20,11 @@ $_SESSION["Configuration"] = []
             </div>
         </div>
         <div class="container">
-            <div class="panel panel-default col-md-9">
-
-                <div class="panel-heading">
-                    <h2 class="panel-title">Processeur</h2>
-                </div>
-                <div class="panel-body" class="texte-configuration">
-                    <img src=" <?php
-                    if (empty($_SESSION["Processeur"])) {
-                        echo 'images/composant/default.png';
-                    } else {
-                        echo 'images/composant/Processeur/' . $_SESSION["Processeur"]['photo_composant'] . '';
-                    }
-                    ?>" class="img-thumbnail" style="width: 80px;">
-                         <?php
-                         if (empty($_SESSION["Processeur"])) {
-                             echo '<a href="composant.php?Categorie=Processeur"><h4 id="h4Border">Veuillez choisir un Processeur</h4></a>';
-                         } else {
-                             echo '<h4>' . $_SESSION["Processeur"]["nom_composant"] . '</h4>';
-                             echo '<h4 id="h4Border">' . $_SESSION["Processeur"]["prix_composant"] . ' CHF</h4>';
-                         }
-                         ?>
-
-                </div>
+            <div class="panel panel-default col-md-8">
                 <?php ShowConfiguration() ?>
             </div>
             <div class="panel panel-default col-md-3">
                 <p>Prix</p>
-             <?php // echo $_SESSION["Processeur"]["prix_composant"] ?>
             </div>
             <!-- FOOTER --> 
             <footer>
