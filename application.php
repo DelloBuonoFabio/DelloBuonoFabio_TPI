@@ -209,7 +209,6 @@ function ShowConfiguration() {
         } else {
             $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
-        echo '<div>';
         echo '<div class="panel-heading">
                     <h3 class="panel-title">';
         echo $value["nom_categorie"];
@@ -421,4 +420,25 @@ function ShowThiscategorieWithButton($categorieName) {
     }
     echo '</table>';
     echo '</form>';
+}
+
+function CalculatePrince() {
+    $dtb = ConnectDB();
+    $sql = "Select nom_categorie from t_categorie where 1";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+    $total = 0;
+    foreach ($return as $value) {
+        if (isset($_SESSION[$value["nom_categorie"]])) {
+            $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
+            $total = $total + $prix;
+        }else{
+            
+        }
+    }
+    
+    echo $total;
 }

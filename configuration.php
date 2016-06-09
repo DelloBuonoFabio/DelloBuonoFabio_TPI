@@ -23,9 +23,11 @@ require_once 'application.php';
             <div class="panel panel-default col-md-8">
                 <?php ShowConfiguration() ?>
             </div>
-            <div class="panel panel-default col-md-3">
-                <p>Prix</p>
+            <div class="panel panel-default col-md-4">
+                <h3>Prix Total : <?php CalculatePrince() ?> CHF</h3>
             </div>
+            </br>
+            
             <!-- FOOTER --> 
             <footer>
                 <?php
