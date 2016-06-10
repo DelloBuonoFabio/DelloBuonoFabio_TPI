@@ -1,15 +1,57 @@
 <?php
 session_start();
 require_once 'application.php';
-//echo CreatSessionArray();
 
+$error = "";
 if (isset($_REQUEST["DeleteConfiguration"])) {
     CleanSession();
     $_SESSION["nomConfiguration"] = filter_input(INPUT_POST, 'nameConfiguration', FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 if (isset($_REQUEST["btnSauvegarder"])){
-    
+    if(!empty($_SESSION["Processeur"]) && !empty($_SESSION["CarteMere"]) && !empty($_SESSION["Memoire"]) && !empty($_SESSION["Ventilateur"]) && !empty($_SESSION["Boitier"]) && !empty($_SESSION["Alimentation"]) && !empty($_SESSION["DisqueDur"]) && !empty($_SESSION["CarteGraphique"])){
+        if(!empty($_SESSION["Clavier"])){
+            $Clavier = $_SESSION["Clavier"]["id_composant"];
+        } else {
+            $Clavier = "0";
+        }
+        if(!empty($_SESSION["Souris"])){
+            $Souris = $_SESSION["Souris"]["id_composant"];
+        } else {
+            $Souris = "0";
+        }
+        if(!empty($_SESSION["LecteurOptique"])){
+            $LecteurOptique = $_SESSION["LecteurOptique"]["id_composant"];
+        } else {
+            $LecteurOptique = "0";
+        }
+        if(!empty($_SESSION["OS"])){
+            $OS = $_SESSION["OS"]["id_composant"];
+        } else {
+            $OS = "0";
+        }
+        if(!empty($_SESSION["AntiVirus"])){
+            $AntiVirus = $_SESSION["AntiVirus"]["id_composant"];
+        } else {
+            $AntiVirus = "0";
+        }
+        
+        $listComponent = $_SESSION["Processeur"]["id_composant"] . "," . 
+                $_SESSION["CarteMere"]["id_composant"] . "," . 
+                $_SESSION["Memoire"]["id_composant"] . "," . 
+                $_SESSION["Ventilateur"]["id_composant"] . "," . 
+                $_SESSION["Boitier"]["id_composant"] . "," . 
+                $_SESSION["Alimentation"]["id_composant"] . "," . 
+                $_SESSION["DisqueDur"]["id_composant"] . "," . 
+                $_SESSION["CarteGraphique"]["id_composant"] . "," .
+                $Clavier . "," . $Souris . "," . $LecteurOptique . "," .
+                $OS . "," . $AntiVirus;
+                
+        AddConfiguration($_SESSION["nomConfiguration"],$listComponent,$_SESSION['user_logged']['id_utilisateur']);
+        header('Location: compte.php');
+    } else {
+        $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong>il manque des composants</div>';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -33,7 +75,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                 <?php ShowConfiguration() ?>
             </div>
             <div class="panel panel-default col-md-4">
-                <h3>Prix Total : <?php CalculatePrince() ?> CHF</h3>
+                <h3>Prix Total : <?php CalculatePrice() ?> CHF</h3>
                 <form action="#" method="post">
                     <div class="btn-group btn-group-justified" role="group">
                         <div class="btn-group" role="group">
@@ -45,6 +87,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                     </div>
                 </form>
                 </br>
+                <?php echo $error; ?>
             </div>
             </br>
             <!-- Modal Security -->
@@ -76,7 +119,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="DeleteConfiguration" id="btnYellow" class="btn btn-primary">Supprimer</button>
+                                <button type="submit" name="btnSauvegarder" id="btnYellow" class="btn btn-primary">Ajouter</button>
                             </div>
                         </form>
                     </div>

@@ -429,7 +429,7 @@ function ShowThiscategorieWithButton($categorieName) {
     echo '</form>';
 }
 
-function CalculatePrince() {
+function CalculatePrice() {
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
@@ -472,4 +472,25 @@ function CleanSession() {
 //        $_SESSION[$value["nom_categorie"]]["prix_composant"] = 0;
 //        $_SESSION[$value["nom_categorie"]]["nom_composant"] = "";
     }
+}
+
+function AddConfiguration($title, $component, $idUtilisateur) {
+    static $maRequete = null;
+    $error = "";
+
+    $actif = true;
+    //Prépaper la requête lors du premier appel
+    if ($maRequete == null) {
+        $maRequete = ConnectDB()->prepare("INSERT INTO t_configuration ( titre_configuration, composant_configuration, estActive, id_utilisateur)
+                                                VALUES                 (                   ?,                       ?,         ?,              ?)");
+    }
+
+    try {
+        //Enregistrer les données
+        $maRequete->execute(array($title, $component, $actif, $idUtilisateur));
+        $error = "OK";
+    } catch (Exception $e) {
+        $error = "error";
+    }
+    return $error;
 }
