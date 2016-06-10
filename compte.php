@@ -3,6 +3,8 @@ session_start();
 require_once 'application.php';
 
 $error = "";
+
+$button = "";
 if (isset($_REQUEST["modalFormUpdate"])) {
     $UpdateName = filter_input(INPUT_POST, 'UpdateName', FILTER_SANITIZE_SPECIAL_CHARS);
     $UpdateFirstName = filter_input(INPUT_POST, 'UpdateFirstName', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -18,7 +20,7 @@ if (isset($_REQUEST["modalFormUpdate"])) {
         } else {
             $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les changement ont subis une erreur !</div>';
         }
-    }else {
+    } else {
         $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong> Les mots de passe ne sont pas les même !</div>';
     }
 }
@@ -27,7 +29,6 @@ if (isset($_REQUEST["DeleteUser"])) {
     DeletUser($_SESSION['user_logged']['email_utilisateur']);
     header('Location: logout.php');
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -65,10 +66,18 @@ if (isset($_REQUEST["DeleteUser"])) {
                 </div>
             </div>
             <?php
-                echo $error;
+            echo $error;
             ?>
             </br>
             <button type="button" class="btn btn-default btn-sm btn-block" name='btnSubmit' data-toggle="modal" data-target="#ModalSecurity">Supprimer le compte</button>
+            <?php
+            if (isset($_GET["idConfiguration"])) {
+                $button = '<button type="button" class="btn btn-default btn-sm btn-block" id="btnModifierConfiguration" name="btnModifierConfiguration" data-toggle="modal" data-target="#ModifierConfiguration">Modifier la configuration</button>';
+            } else {
+                $button = "";
+            }
+            echo $button;
+            ?>
             <!-- Modal information -->
             <div class="modal fade" id="ModalInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -145,7 +154,26 @@ if (isset($_REQUEST["DeleteUser"])) {
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Modal Modification -->
+            <div class="modal fade" id="ModifierConfiguration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="compte.php" method="post" id="registerForm">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="myModalLabel">Ma Configuration</h3>
+                            </div>
+                            <div class="modal-body">
+                                <?php ShowComponentsById($_GET["idConfiguration"]) ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER --> 
             <footer>
                 <?php
@@ -157,5 +185,8 @@ if (isset($_REQUEST["DeleteUser"])) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>
+        <script>
+            $("#btnModifierConfiguration").trigger("click");
+        </script>
     </body>
 </html>

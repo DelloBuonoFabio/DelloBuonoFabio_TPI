@@ -555,7 +555,7 @@ function ShowCreationInactive($idUser) {
         echo '<tr>';
         echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
         echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
-        echo '<td><h4><span class="glyphicon glyphicon-cog"></span></h4></td>';
+        echo '<td><a href="?idConfiguration=' . $value['id_configuration'] . '"><h4><span class="glyphicon glyphicon-cog"></span></h4></td></a>';
         echo '<tr>';
     }
     echo'</table>';
@@ -588,16 +588,18 @@ function CreateCategorySection($tableau) {
     }
 }
 
-function ShowComponents($idConfiguration) {
+function ShowComponentsById($idConfiguration) {
     
     $dtb = ConnectDB();
-    $sql = "SELECT nom_composant, prix_composant FROM t_composant ca, t_composee ce WHERE ca.id_composant = ce.id_composant AND ce.id_configuration = ?";
+    $sql = "SELECT nom_composant, prix_composant, photo_composant, id_categorie FROM t_composant ca, t_composee ce WHERE ca.id_composant = ce.id_composant AND ce.id_configuration = ?";
     $maRequete = $dtb->prepare($sql);
     
     $maRequete->execute(array($idConfiguration));
     
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
-        
+        $chemin = '<img src="images/composant/' . GetNameById($data['id_categorie']) . '/' . $data['photo_composant'] . '" class="img-rounded"/>';
+        echo $chemin . "<br>";
         echo $data['nom_composant'] . "<br>";
+        echo $data['prix_composant'] . "<br>";
     }
 }
