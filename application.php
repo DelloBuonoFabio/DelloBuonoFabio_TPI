@@ -98,8 +98,8 @@ function AllMeta() {
 
 function AllFooter() {
     $localFooter = '
-        <p class="pull-right"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
-        <p>Dello Buono Fabio</p>';
+        <p class="pull-right hidden-print"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
+        <p class="hidden-print">Dello Buono Fabio</p>';
     return $localFooter;
 }
 
@@ -202,19 +202,22 @@ function ShowConfiguration() {
         $img = "images/composant/default.png";
         $prix = "0";
         $nom = "";
+        $button = "";
         if (isset($_SESSION[$value["nom_categorie"]])) {
             if (empty($_SESSION[$value["nom_categorie"]]["nom_composant"])) {
                 $img = "images/composant/default.png";
                 $prix = "0";
                 $nom = "";
+                $button = "";
                 $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
             } else {
                 $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
                 $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
                 $nom = $_SESSION[$value["nom_categorie"]]["nom_composant"];
+                $button = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4 style="color: #ffffff;">Modifier</h4></a>';
             }
         } else {
-            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+            $text = '<h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4>';
         }
         echo '<div class="panel-heading">
                     <h3 class="panel-title">';
@@ -222,9 +225,10 @@ function ShowConfiguration() {
         echo '</h3>
                 </div>
                 <div class="panel-body" class="texte-configuration">';
-        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><img src="' . $img . '" class="img-thumbnail" style="width: 80px;"/></a>';
+        echo '<img src="' . $img . '" class="img-thumbnail" style="width: 80px;" alt="img"/>';
         echo $text;
-        echo '<h4>' . $nom . '</h4>';
+        echo $button;
+        echo '<h4 id="h4Border">' . $nom . '</h4>';
         echo '<h4 id="h4Border">' . $prix . ' CHF</h4>';
         echo '</div>';
     }
@@ -442,7 +446,7 @@ function CalculatePrice() {
         if (isset($_SESSION[$value["nom_categorie"]])) {
             if (empty($_SESSION[$value["nom_categorie"]]["nom_composant"])) {
                 $prix = 0;
-            } else{
+            } else {
                 $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
             }
             $total = $total + $prix;
@@ -451,7 +455,7 @@ function CalculatePrice() {
         }
     }
 
-    echo $total;
+    return $total;
 }
 
 function CleanSession() {
@@ -474,20 +478,20 @@ function CleanSession() {
     }
 }
 
-function AddConfiguration($title, $component, $idUtilisateur) {
+function AddConfiguration($price, $title, $component, $idUtilisateur) {
     static $maRequete = null;
     $error = "";
 
     $actif = true;
     //Prépaper la requête lors du premier appel
     if ($maRequete == null) {
-        $maRequete = ConnectDB()->prepare("INSERT INTO t_configuration ( titre_configuration, composant_configuration, estActive, id_utilisateur)
-                                                VALUES                 (                   ?,                       ?,         ?,              ?)");
+        $maRequete = ConnectDB()->prepare("INSERT INTO t_configuration ( prix_configuration, titre_configuration, composant_configuration, estActive, id_utilisateur)
+                                                VALUES                 (                  ?,                   ?,                       ?,         ?,              ?)");
     }
 
     try {
         //Enregistrer les données
-        $maRequete->execute(array($title, $component, $actif, $idUtilisateur));
+        $maRequete->execute(array($price, $title, $component, $actif, $idUtilisateur));
         $error = "OK";
     } catch (Exception $e) {
         $error = "error";
@@ -495,20 +499,56 @@ function AddConfiguration($title, $component, $idUtilisateur) {
     return $error;
 }
 
-function ShowCreation($idUser) {
+function ShowCreationActive($idUser) {
     $dtb = ConnectDB();
-    $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' ';
+    $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' and estActive=1 ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute();
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-
+    echo'<h4>Mes créations actives</h4>';
+    echo '</br>';
+    echo'<table class="table">';
+    echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
     foreach ($return as $value) {
-       $tableau = explode(",", $value["composant_configuration"]); 
+        $tableau = explode(",", $value["composant_configuration"]);
+        echo '<tr>';
+        echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
+        echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
+        echo '<td><h4><span class="glyphicon glyphicon-cog"></span></h4></td>';
+        echo '<tr>';
     }
-    
-    foreach ($tableau as $value) {
-       echo $value; 
+    echo'</table>';
+//    for($i = 0; $i = 2; $i++)
+//       {
+//           //echo $tableau[$i];
+//       }
+}
+
+function ShowCreationInactive($idUser) {
+    $dtb = ConnectDB();
+    $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' and estActive=0 ';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute();
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
     }
+    echo'<h4>Mes créations inactives</h4>';
+    echo'<table class="table">';
+    echo '</br>';
+    echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
+    foreach ($return as $value) {
+        $tableau = explode(",", $value["composant_configuration"]);
+        echo '<tr>';
+        echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
+        echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
+        echo '<td><h4><span class="glyphicon glyphicon-cog"></span></h4></td>';
+        echo '<tr>';
+    }
+    echo'</table>';
+//    for($i = 0; $i = 2; $i++)
+//       {
+//           //echo $tableau[$i];
+//       }
 }

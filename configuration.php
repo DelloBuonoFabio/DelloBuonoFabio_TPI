@@ -3,9 +3,9 @@ session_start();
 require_once 'application.php';
 
 $error = "";
+
 if (isset($_REQUEST["DeleteConfiguration"])) {
     CleanSession();
-    $_SESSION["nomConfiguration"] = filter_input(INPUT_POST, 'nameConfiguration', FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 if (isset($_REQUEST["btnSauvegarder"])){
@@ -35,7 +35,8 @@ if (isset($_REQUEST["btnSauvegarder"])){
         } else {
             $AntiVirus = "0";
         }
-        
+        $_SESSION["nomConfiguration"] = filter_input(INPUT_POST, 'nameConfiguration', FILTER_SANITIZE_SPECIAL_CHARS);
+        $priceConfiguration = CalculatePrice();
         $listComponent = $_SESSION["Processeur"]["id_composant"] . "," . 
                 $_SESSION["CarteMere"]["id_composant"] . "," . 
                 $_SESSION["Memoire"]["id_composant"] . "," . 
@@ -47,8 +48,9 @@ if (isset($_REQUEST["btnSauvegarder"])){
                 $Clavier . "," . $Souris . "," . $LecteurOptique . "," .
                 $OS . "," . $AntiVirus;
                 
-        AddConfiguration($_SESSION["nomConfiguration"],$listComponent,$_SESSION['user_logged']['id_utilisateur']);
-        header('Location: compte.php');
+        AddConfiguration($priceConfiguration,$_SESSION["nomConfiguration"],$listComponent,$_SESSION['user_logged']['id_utilisateur']);
+        
+        //header('Location: compte.php');
     } else {
         $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong>il manque des composants</div>';
     }
@@ -70,14 +72,14 @@ if (isset($_REQUEST["btnSauvegarder"])){
                 ?>
             </div>
         </div>
-        <div class="container">
+        <div class="container" id="printableArea">
             <div class="panel panel-default col-md-8">
                 <?php ShowConfiguration() ?>
             </div>
             <div class="panel panel-default col-md-4">
-                <h3>Prix Total : <?php CalculatePrice() ?> CHF</h3>
+                <h3>Prix Total : <?php echo CalculatePrice() ?> CHF</h3>
                 <form action="#" method="post">
-                    <div class="btn-group btn-group-justified" role="group">
+                    <div class="btn-group btn-group-justified hidden-print" role="group">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalSupprimer" name="btnSupprimer">Supprimer</button>
                         </div>
@@ -85,6 +87,8 @@ if (isset($_REQUEST["btnSauvegarder"])){
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalSauvegrader"  name="btnSauvegarder">Sauvegarder</button>
                         </div>
                     </div>
+                    </br>
+                    <input name="print" type="button" class="btn btn-default btn-md btn-block hidden-print" onclick="printDiv('printableArea')" value="Imprimer" />
                 </form>
                 </br>
                 <?php echo $error; ?>
@@ -136,5 +140,14 @@ if (isset($_REQUEST["btnSauvegarder"])){
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>
+        <script>
+            function printDiv(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+            }
+        </script>
     </body>
 </html>
