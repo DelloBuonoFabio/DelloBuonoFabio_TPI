@@ -37,20 +37,25 @@ if (isset($_REQUEST["btnSauvegarder"])){
         }
         $_SESSION["nomConfiguration"] = filter_input(INPUT_POST, 'nameConfiguration', FILTER_SANITIZE_SPECIAL_CHARS);
         $priceConfiguration = CalculatePrice();
-        $listComponent = $_SESSION["Processeur"]["id_composant"] . "," . 
-                $_SESSION["CarteMere"]["id_composant"] . "," . 
-                $_SESSION["Memoire"]["id_composant"] . "," . 
-                $_SESSION["Ventilateur"]["id_composant"] . "," . 
-                $_SESSION["Boitier"]["id_composant"] . "," . 
-                $_SESSION["Alimentation"]["id_composant"] . "," . 
-                $_SESSION["DisqueDur"]["id_composant"] . "," . 
-                $_SESSION["CarteGraphique"]["id_composant"] . "," .
-                $Clavier . "," . $Souris . "," . $LecteurOptique . "," .
-                $OS . "," . $AntiVirus;
-                
-        AddConfiguration($priceConfiguration,$_SESSION["nomConfiguration"],$listComponent,$_SESSION['user_logged']['id_utilisateur']);
+        $Components = [
+            $_SESSION["Processeur"]["id_composant"],
+            $_SESSION["CarteMere"]["id_composant"],
+            $_SESSION["Memoire"]["id_composant"],
+            $_SESSION["Ventilateur"]["id_composant"],
+            $_SESSION["Boitier"]["id_composant"],
+            $_SESSION["Alimentation"]["id_composant"],
+            $_SESSION["DisqueDur"]["id_composant"],
+            $_SESSION["CarteGraphique"]["id_composant"],
+            $Clavier,
+            $Souris,
+            $LecteurOptique,
+            $OS,
+            $AntiVirus
+        ];
+
+        AddConfiguration($priceConfiguration,$_SESSION["nomConfiguration"], $Components, $_SESSION['user_logged']['id_utilisateur']);
         
-        //header('Location: compte.php');
+        header('Location: compte.php');
     } else {
         $error = '<div class="alert alert-warning" role="alert"><strong>Oops!</strong>il manque des composants</div>';
     }

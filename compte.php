@@ -27,6 +27,7 @@ if (isset($_REQUEST["DeleteUser"])) {
     DeletUser($_SESSION['user_logged']['email_utilisateur']);
     header('Location: logout.php');
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -123,7 +124,6 @@ if (isset($_REQUEST["DeleteUser"])) {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="modalForm" id="btnYellow" class="btn btn-primary">Modifier</button>
                             </div>
                         </form>
                     </div>

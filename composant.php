@@ -28,10 +28,10 @@ if (isset($_GET["idComposant"])) {
         </div>
         <div class="container">
             <?php
-            if (!empty($categorieName)) {
+            if (!empty($_SESSION['user_logged']['nom_utilisateur'])) {
                 ShowThiscategorieWithButton($categorieName);
             } else {
-                echo "error";
+                ShowThisCategorie($categorieName);
             }
             ?>
             <!-- FOOTER --> 

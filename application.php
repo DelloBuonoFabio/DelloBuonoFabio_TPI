@@ -160,7 +160,7 @@ function ShowCategorie() {
     echo '<table class="table">';
     foreach ($return as $value) {
         echo '<tr class="listeCategorie">';
-        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="composant.php?categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p></td>';
+        echo '<td>' . $value["nom_categorie"] . '<p class="pull-right"><a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><span class="glyphicon glyphicon-tag"></span></a></p></td>';
 
         echo '</tr>';
     }
@@ -217,7 +217,7 @@ function ShowConfiguration() {
                 $button = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4 style="color: #ffffff;">Modifier</h4></a>';
             }
         } else {
-            $text = '<h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4>';
+            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
         echo '<div class="panel-heading">
                     <h3 class="panel-title">';
@@ -478,7 +478,7 @@ function CleanSession() {
     }
 }
 
-function AddConfiguration($price, $title, $component, $idUtilisateur) {
+function AddConfiguration($price, $title, $components, $idUtilisateur) {
     static $maRequete = null;
     $error = "";
 
@@ -491,12 +491,25 @@ function AddConfiguration($price, $title, $component, $idUtilisateur) {
 
     try {
         //Enregistrer les données
-        $maRequete->execute(array($price, $title, $component, $actif, $idUtilisateur));
+        $maRequete->execute(array($price, $title, "plop", $actif, $idUtilisateur));
+        AddComponentsToConfiguration($components, ConnectDB()->lastInsertId());
         $error = "OK";
     } catch (Exception $e) {
         $error = "error";
     }
     return $error;
+}
+
+function AddComponentsToConfiguration($components, $id) {
+    
+    $dtb = ConnectDB();
+    $sql = "INSERT INTO t_composee (id_configuration, id_composant) VALUES (?, ?)";
+    $maRequete = $dtb->prepare($sql);
+    
+    foreach ($components as $idCategorie) {
+        
+        $maRequete->execute(array($id, $idCategorie));
+    }
 }
 
 function ShowCreationActive($idUser) {
@@ -512,7 +525,7 @@ function ShowCreationActive($idUser) {
     echo'<table class="table">';
     echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
     foreach ($return as $value) {
-        $tableau = explode(",", $value["composant_configuration"]);
+        //$_SESSION['New'] = explode(",", $value["composant_configuration"]);
         echo '<tr>';
         echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
         echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
@@ -539,7 +552,6 @@ function ShowCreationInactive($idUser) {
     echo '</br>';
     echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
     foreach ($return as $value) {
-        $tableau = explode(",", $value["composant_configuration"]);
         echo '<tr>';
         echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
         echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
@@ -551,4 +563,41 @@ function ShowCreationInactive($idUser) {
 //       {
 //           //echo $tableau[$i];
 //       }
+}
+
+function CreateCategorySection($tableau) {
+
+    //$tableau = explode(",", $value["composant_configuration"]);
+    $dtb = ConnectDB();
+    $sql = "Select nom_categorie from t_categorie where id_categorie = ?";
+    $maRequete = $dtb->prepare($sql);
+
+    foreach ($maRequete as $id) {
+
+        $categorieName = null;
+
+        $maRequete->execute(array($id));
+        while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+            $categorieName = $data['categorieName'];
+        }
+        
+        if ($categorieName != null) {
+            
+            $_SESSION[$categorieName] = $id;
+        }
+    }
+}
+
+function ShowComponents($idConfiguration) {
+    
+    $dtb = ConnectDB();
+    $sql = "SELECT nom_composant, prix_composant FROM t_composant ca, t_composee ce WHERE ca.id_composant = ce.id_composant AND ce.id_configuration = ?";
+    $maRequete = $dtb->prepare($sql);
+    
+    $maRequete->execute(array($idConfiguration));
+    
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        
+        echo $data['nom_composant'] . "<br>";
+    }
 }
