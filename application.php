@@ -494,3 +494,21 @@ function AddConfiguration($title, $component, $idUtilisateur) {
     }
     return $error;
 }
+
+function ShowCreation($idUser) {
+    $dtb = ConnectDB();
+    $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' ';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute();
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+
+    foreach ($return as $value) {
+       $tableau = explode(",", $value["composant_configuration"]); 
+    }
+    
+    foreach ($tableau as $value) {
+       echo $value; 
+    }
+}

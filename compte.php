@@ -116,7 +116,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                                 <h3 class="modal-title" id="myModalLabel">Mes Créations</h3>
                             </div>
                             <div class="modal-body">
-
+                                <?php echo ShowCreation($_SESSION['user_logged']['id_utilisateur']); ?>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
