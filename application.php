@@ -196,16 +196,23 @@ function ShowConfiguration() {
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    
+
     foreach ($return as $value) {
-        $text ="";
+        $text = "";
         $img = "images/composant/default.png";
         $prix = "0";
         $nom = "";
         if (isset($_SESSION[$value["nom_categorie"]])) {
-            $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
-            $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
-            $nom = $_SESSION[$value["nom_categorie"]]["nom_composant"];
+            if (empty($_SESSION[$value["nom_categorie"]]["nom_composant"])) {
+                $img = "images/composant/default.png";
+                $prix = "0";
+                $nom = "";
+                $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+            } else {
+                $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
+                $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
+                $nom = $_SESSION[$value["nom_categorie"]]["nom_composant"];
+            }
         } else {
             $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
@@ -215,15 +222,15 @@ function ShowConfiguration() {
         echo '</h3>
                 </div>
                 <div class="panel-body" class="texte-configuration">';
-        echo '<img src="' . $img . '" class="img-thumbnail" style="width: 80px;"/>';
+        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><img src="' . $img . '" class="img-thumbnail" style="width: 80px;"/></a>';
         echo $text;
-        echo '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>' . $nom . '</h4></a>';
+        echo '<h4>' . $nom . '</h4>';
         echo '<h4 id="h4Border">' . $prix . ' CHF</h4>';
         echo '</div>';
     }
 }
 
-function CreatSessionArray(){
+function CreatSessionArray() {
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
@@ -231,7 +238,7 @@ function CreatSessionArray(){
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    
+
     foreach ($return as $value) {
         echo '$_SESSION["' . $value["nom_categorie"] . '"] = []';
     }
@@ -433,12 +440,36 @@ function CalculatePrince() {
     $total = 0;
     foreach ($return as $value) {
         if (isset($_SESSION[$value["nom_categorie"]])) {
-            $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
+            if (empty($_SESSION[$value["nom_categorie"]]["nom_composant"])) {
+                $prix = 0;
+            } else{
+                $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
+            }
             $total = $total + $prix;
-        }else{
+        } else {
             
         }
     }
-    
+
     echo $total;
+}
+
+function CleanSession() {
+    $dtb = ConnectDB();
+    $sql = "Select nom_categorie from t_categorie where 1";
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+
+    foreach ($return as $value) {
+        if (isset($_SESSION[$value["nom_categorie"]])) {
+            $_SESSION[$value["nom_categorie"]] = [];
+        }
+
+//        $_SESSION[$value["nom_categorie"]]["photo_composant"] = "images/composant/default.png";
+//        $_SESSION[$value["nom_categorie"]]["prix_composant"] = 0;
+//        $_SESSION[$value["nom_categorie"]]["nom_composant"] = "";
+    }
 }
