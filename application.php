@@ -603,7 +603,7 @@ function ClearSession() {
  * @param type $idUtilisateur
  * @return string
  */
-function AddConfiguration($price, $title, $idUtilisateur) {
+function AddConfiguration($price, $components, $title, $idUtilisateur) {
     static $maRequete = null;
     $error = "";
 
