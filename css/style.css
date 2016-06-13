@@ -108,6 +108,11 @@ h4{
     color: #F9D01B;
 }
 
+h5{
+    text-align: center;
+    color: #F9D01B;
+}
+
 #Map {
   width:85%;
   height:400px; 
@@ -171,3 +176,11 @@ h4{
 /*.table > tbody > tr > td{
     border: none;
 }*/
+
+img{
+    background-color: white;
+}
+
+#imgCenter{
+    margin-left: 41%;
+}

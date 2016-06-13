@@ -165,7 +165,6 @@ function CheckLogin($email, $password) {
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);
     //Retourne les données de l'utilisateur
     return $data;
-    
 }
 
 /**
@@ -181,7 +180,7 @@ function ShowCategory() {
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    
+
     //Pour chaque catégories
     echo '<table class="table">';
     foreach ($return as $value) {
@@ -282,15 +281,15 @@ function ShowConfiguration() {
         } else {
             $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
-        
+
         //affichage des informations
         echo '<div class="panel-heading">
                     <h3 class="panel-title" id="h4Border">';
-                 echo $value["nom_categorie"];
-             echo '</h3>';
+        echo $value["nom_categorie"];
+        echo '</h3>';
         echo '</div>
             <div class="panel-body" class="texte-configuration">';
-        
+
         echo '<table class="table">';
         echo '<tr>';
         echo '<td>';
@@ -311,8 +310,8 @@ function ShowConfiguration() {
         echo $text;
         echo '</td>';
         echo '</tr>';
-        echo '</table>';         
-             
+        echo '</table>';
+
         echo '</div>';
     }
 }
@@ -617,7 +616,7 @@ function AddConfiguration($price, $title, $idUtilisateur) {
 
     try {
         //Enregistrer les données
-        $maRequete->execute(array($price, $title,  $actif, $idUtilisateur));
+        $maRequete->execute(array($price, $title, $actif, $idUtilisateur));
         AddComponentsToConfiguration($components, connectDB()->lastInsertId());
         $error = "OK";
     } catch (Exception $e) {
@@ -635,9 +634,9 @@ function AddComponentsToConfiguration($components, $id) {
     $dtb = connectDB();
     $sql = "INSERT INTO t_composee (id_configuration, id_composant) VALUES (?, ?)";
     $maRequete = $dtb->prepare($sql);
-    
+
     foreach ($components as $idCategorie) {
-        
+
         $maRequete->execute(array($id, $idCategorie));
     }
 }
@@ -648,29 +647,30 @@ function AddComponentsToConfiguration($components, $id) {
  */
 function ShowCreationActive($idUser) {
     $dtb = connectDB();
+    $return = [];
     $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' and estActive=1 ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute();
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    echo'<h4>Mes créations actives</h4>';
-    echo '</br>';
-    echo'<table class="table">';
-    echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
-    foreach ($return as $value) {
-        //$_SESSION['New'] = explode(",", $value["composant_configuration"]);
-        echo '<tr>';
-        echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
-        echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
-        echo '<td><h4><span class="glyphicon glyphicon-cog"></span></h4></td>';
-        echo '<tr>';
+    if ($return == []) {
+        echo'<h4>Mes créations actives</h4>';
+        echo "<h5>Vous n'avez pas de création active !</h5>";
+    } else {
+        echo'<h4>Mes créations actives</h4>';
+        echo '</br>';
+        echo'<table class="table">';
+        echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
+        foreach ($return as $value) {
+            echo '<tr>';
+            echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
+            echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
+            echo '<td><a href="?idConfiguration=' . $value['id_configuration'] . '"><h4><span class="glyphicon glyphicon-cog"></span></h4></td></a>';
+            echo '<tr>';
+        }
+        echo'</table>';
     }
-    echo'</table>';
-//    for($i = 0; $i = 2; $i++)
-//       {
-//           //echo $tableau[$i];
-//       }
 }
 
 /**
@@ -679,28 +679,30 @@ function ShowCreationActive($idUser) {
  */
 function ShowCreationInactive($idUser) {
     $dtb = connectDB();
+    $return = [];
     $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' and estActive=0 ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute();
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-    echo'<h4>Mes créations inactives</h4>';
-    echo'<table class="table">';
-    echo '</br>';
-    echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
-    foreach ($return as $value) {
-        echo '<tr>';
-        echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
-        echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
-        echo '<td><a href="?idConfiguration=' . $value['id_configuration'] . '"><h4><span class="glyphicon glyphicon-cog"></span></h4></td></a>';
-        echo '<tr>';
+    if ($return == []) {
+        echo'<h4>Mes créations inactives</h4>';
+        echo "<h5>Vous n'avez pas de création inactive !</h5>";
+    } else {
+        echo'<h4>Mes créations inactives</h4>';
+        echo'<table class="table">';
+        echo '</br>';
+        echo'<tr><th>Nom</th><th>Prix</th><th>Modification</th></tr>';
+        foreach ($return as $value) {
+            echo '<tr>';
+            echo '<td><h4>' . $value['titre_configuration'] . ' </h4></td>';
+            echo '<td><h4>' . $value['prix_configuration'] . '</h4></td>';
+            echo '<td><a href="?idConfiguration=' . $value['id_configuration'] . '"><h4><span class="glyphicon glyphicon-cog"></span></h4></td></a>';
+            echo '<tr>';
+        }
+        echo'</table>';
     }
-    echo'</table>';
-//    for($i = 0; $i = 2; $i++)
-//       {
-//           //echo $tableau[$i];
-//       }
 }
 
 /**
@@ -711,13 +713,50 @@ function ShowComponentsById($idConfiguration) {
     $dtb = connectDB();
     $sql = "SELECT nom_composant, prix_composant, photo_composant, id_categorie FROM t_composant ca, t_composee ce WHERE ca.id_composant = ce.id_composant AND ce.id_configuration = ?";
     $maRequete = $dtb->prepare($sql);
-    
+
     $maRequete->execute(array($idConfiguration));
-    
+
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
-        $chemin = '<img src="images/composant/' . GetNameById($data['id_categorie']) . '/' . $data['photo_composant'] . '" class="img-rounded"/>';
-        echo $chemin . "<br>";
-        echo $data['nom_composant'] . "<br>";
-        echo $data['prix_composant'] . "<br>";
+        $chemin = '<img src="images/composant/' . GetNameById($data['id_categorie']) . '/' . $data['photo_composant'] . '" class="img-rounded" id="imgCenter"/>';
+        echo $chemin;
+        echo '<h4>' . $data['nom_composant'] . "</h4>";
+        echo '<h4>' . $data['prix_composant'] . " CHF</h4>";
     }
+}
+
+/**
+ * Récupère les données de la configuration
+ * @param type $idConfiguration
+ * @return type
+ */
+function GetConfiguration($idConfiguration) {
+    $dtb = connectDB();
+    $sql = 'SELECT * FROM t_configuration WHERE id_configuration = ?';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array($idConfiguration));
+    $data = $maRequete->fetch(PDO::FETCH_ASSOC);
+    return $data;
+}
+
+/**
+ * Met à jour quelques informations de la configuration
+ * @param type $idConfiguration
+ * @param type $title
+ * @param type $Etat
+ * @return type
+ */
+function UpdateConfiguration($idConfiguration, $title, $Etat) {
+    $dtb = connectDB();
+    $sqlUpdate = ("UPDATE t_configuration
+                SET titre_configuration=?, estActive=?
+                WHERE id_configuration=?;");
+
+    $maRequete = $dtb->prepare($sqlUpdate);
+    $maRequete->execute(array($title, $Etat, $idConfiguration));
+
+    $sql = 'SELECT * FROM t_configuration WHERE id_configuration = ?';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array($idConfiguration));
+    $data = $maRequete->fetch(PDO::FETCH_ASSOC);
+    return $data;
 }

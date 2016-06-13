@@ -25,10 +25,32 @@ if (isset($_REQUEST["modalFormUpdate"])) {
     }
 }
 
+if (isset($_GET["idConfiguration"])) {
+    $_SESSION["localConfiguration"] = GetConfiguration($_GET["idConfiguration"]);
+}
+
+if(isset($_REQUEST["modifCreation"])){
+    
+    $UpdateTitle = filter_input(INPUT_POST, 'UpdateTitle', FILTER_SANITIZE_SPECIAL_CHARS);
+    $UpdateActive = isset ($_REQUEST['UpdateActive']);
+    
+    if(!empty($UpdateTitle))
+    {
+        $UpdateCreation = UpdateConfiguration($_GET["idConfiguration"], $UpdateTitle, $UpdateActive);
+        if($UpdateCreation)
+        {
+            $_SESSION["localConfiguration"] = $UpdateCreation;
+        }
+    }
+}
+
+
+
 if (isset($_REQUEST["DeleteUser"])) {
     DeletUser($_SESSION['user_logged']['email_utilisateur']);
     header('Location: logout.php');
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -161,16 +183,20 @@ if (isset($_REQUEST["DeleteUser"])) {
             <div class="modal fade" id="ModifierConfiguration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form action="compte.php" method="post" id="registerForm">
+                        <form action="#" method="post" id="registerForm">
                             <div class="modal-header">
                                 <h3 class="modal-title" id="myModalLabel">Ma Configuration</h3>
                             </div>
                             <div class="modal-body">
+                                <h4>Titre</h4>
+                                <input type="text" class="form-control" placeholder="Nom" value="<?php echo $_SESSION['localConfiguration']['titre_configuration'] ?>"  name='UpdateTitle' required aria-describedby="basic-addon2">
+                                <h4>Active/Inactive</h4><input type="checkbox" name="UpdateActive" value="Active" <?php if($_SESSION['localConfiguration']['estActive']){echo "checked";}else{echo "";} ?> class="form-control">
+                                <br>
                                 <?php ShowComponentsById($_GET["idConfiguration"]) ?>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
+                                <button type="submit" name="modifCreation" id="btnYellow" class="btn btn-primary">Modifier</button>
                             </div>
                         </form>
                     </div>
