@@ -100,7 +100,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                         <select class="form-control" name="selectCat">
                             <option value="ca.nom_categorie">Choisir une catégorie...</option>
                             <?php
-                            echo GetCategorrie();
+                            echo GetCategory();
                             ?>
                         </select>
                         </br>
@@ -158,7 +158,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                                 </br>
                                 <select class="form-control" name="CatComponent">
                                     <?php
-                                    echo GetCategorrie();
+                                    echo GetCategory();
                                     ?>
                                 </select>
                                 <div class="modal-footer">
@@ -193,7 +193,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                                 <select class="form-control" name="NewCatComponent">
                                     <option value="<?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?>"><?php echo GetNameById($_SESSION['ThisComponent']['id_categorie']) ?></option>
                                     <?php
-                                    echo GetCategorrie();
+                                    echo GetCategory();
                                     ?>
                                 </select>
                             </div>

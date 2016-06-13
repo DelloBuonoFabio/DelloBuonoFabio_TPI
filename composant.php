@@ -30,9 +30,9 @@ if (isset($_GET["idComposant"])) {
         <div class="container marketing">
             <?php
             if (!empty($_SESSION['user_logged']['nom_utilisateur'])) {
-                ShowThisCategorieWithButton($categorieName);
+                ShowThisCategoryWithButton($categorieName);
             } else {
-                ShowThisCategorie($categorieName);
+                ShowThisCategory($categorieName);
             }
             ?>
             <!-- FOOTER --> 

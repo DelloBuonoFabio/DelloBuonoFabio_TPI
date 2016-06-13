@@ -27,7 +27,7 @@ require_once 'application.php';
                 <!-- LISTE CATEGORY -->
                 <div class="panel-body">
                     <?php
-                    ShowCategorie();
+                    ShowCategory();
                     ?>
                 </div>
             </div>

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Allows connection to the DB
+ * Connexion à la base de données 
  * @staticvar type $maDB
  * @return  DB
  */
-function ConnectDB() {
+function connectDB() {
     static $maDB = null;
     $myDBname = "mypcconfig_tpi";
     $myDbnameUser = "AdminLocal";
@@ -23,17 +23,21 @@ function ConnectDB() {
     return $maDB;
 }
 
+/**
+ * Création et affichage du menu en fonction de l'utilisateur connecté
+ */
 function menu() {
+    //$PageName = contien le nom de la page sur laquelle se trouve l'utilisateur
     $PageName = basename($_SERVER["PHP_SELF"]);
 
     if (empty($_SESSION['user_logged'])) {
-        //if the user is not connected
+        //si l'utilisateur n'es pas connecté
         $menu = array("index.php" => 'Accueil <span class="glyphicon glyphicon-home"></span>',
             "connexion.php" => 'Connexion <span class="glyphicon glyphicon-user"></span>',
             "hardware.php" => 'HardWare <span class="glyphicon glyphicon-wrench"></span>'
         );
     } else {
-        //if the user is connected 
+        //si l'utilisateur est connecté et l'utilisateur est un admin
         if ($_SESSION['user_logged']['estAdmin']) {
             $menu = array("index.php" => 'Home <span class="glyphicon glyphicon-home"></span>',
                 "hardware.php" => 'HardWare <span class="glyphicon glyphicon-wrench"></span>',
@@ -43,6 +47,7 @@ function menu() {
                 "deconnexion.php" => 'Deconnexion <span class="glyphicon glyphicon-remove"></span>'
             );
         } else {
+            //si l'utilisateur est connecté mais il n'est pas admin
             $menu = array("index.php" => 'Home <span class="glyphicon glyphicon-home"></span>',
                 "hardware.php" => 'HardWare <span class="glyphicon glyphicon-wrench"></span>',
                 "configuration.php" => 'Configuration <span class="glyphicon glyphicon-cog"></span>',
@@ -51,6 +56,7 @@ function menu() {
             );
         }
     }
+    //affichage des tableau ci dessus en php et html -> le menu 
     ?>
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container"><div class="navbar-header">
@@ -81,6 +87,10 @@ function menu() {
     <?php
 }
 
+/**
+ * Donne à chaque page les metas importantes
+ * @return string
+ */
 function AllMeta() {
     $localMeta = '
         <meta charset="utf-8">
@@ -96,6 +106,10 @@ function AllMeta() {
     return $localMeta;
 }
 
+/**
+ * Donne à chaque page le footer
+ * @return string
+ */
 function AllFooter() {
     $localFooter = '
         <p class="pull-right hidden-print"><a href=""><span class="glyphicon glyphicon-eject"></span></a></p>
@@ -104,11 +118,13 @@ function AllFooter() {
 }
 
 /**
- * Add a new user in the DB 
+ * Ajout un nouvel utilisateur dans la base de données
  * @staticvar type $maRequete
  * @param type $name
+ * @param type $firstname
+ * @param type $email
  * @param type $password
- * @return string if the user name is already assigned 
+ * @return OK si l'ajout a fonctionné, error si un erreur est survenue
  */
 function AddUser($name, $firstname, $email, $password) {
     static $maRequete = null;
@@ -118,7 +134,7 @@ function AddUser($name, $firstname, $email, $password) {
 
     //Prépaper la requête lors du premier appel
     if ($maRequete == null) {
-        $maRequete = ConnectDB()->prepare("INSERT INTO t_utilisateur (nom_utilisateur, prenom_utilisateur, email_utilisateur, motDePasse_utilisateur, estAdmin)
+        $maRequete = connectDB()->prepare("INSERT INTO t_utilisateur (nom_utilisateur, prenom_utilisateur, email_utilisateur, motDePasse_utilisateur, estAdmin)
                                                 VALUES               (              ?,                  ?,                 ?,                      ?,        ?)");
     }
 
@@ -133,30 +149,40 @@ function AddUser($name, $firstname, $email, $password) {
 }
 
 /**
- * check if the user is in the DB
+ * Vérifie si l'utilisateur se trouve dans la base de données
  * @param string $email
  * @param string $password
  */
 function CheckLogin($email, $password) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
+    //Encode $password en sha1
     $password = sha1($password);
+    //Prépaper la requête lors du premier appel
     $sql = "SELECT * FROM t_utilisateur WHERE email_utilisateur = ? AND motDePasse_utilisateur = ? ";
+    //Appeller la requête
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array($email, $password));
     $data = $maRequete->fetch(PDO::FETCH_ASSOC);
+    //Retourne les données de l'utilisateur
     return $data;
-    // return data user
+    
 }
 
-function ShowCategorie() {
-    $dtb = ConnectDB();
+/**
+ * Affiche toutes les catégories se trouvant dans la base de données
+ */
+function ShowCategory() {
+    $dtb = connectDB();
+    //Prépaper la requête lors du premier appel
     $sql = "Select nom_categorie from t_categorie where 1";
+    //Appelle la requête
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
         $return[] = $data;
     }
-
+    
+    //Pour chaque catégories
     echo '<table class="table">';
     foreach ($return as $value) {
         echo '<tr class="listeCategorie">';
@@ -167,8 +193,12 @@ function ShowCategorie() {
     echo '</table>';
 }
 
-function ShowThisCategorie($categorieName) {
-    $dtb = ConnectDB();
+/**
+ * Affiche les composants d'une catégorie précise 
+ * @param type $categorieName
+ */
+function ShowThisCategory($categorieName) {
+    $dtb = connectDB();
     $location = "./images/composant/";
     $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
     $maRequete = $dtb->prepare($sql);
@@ -188,8 +218,13 @@ function ShowThisCategorie($categorieName) {
     echo '</table>';
 }
 
-function ShowThisCategorieWithButton($categorieName) {
-    $dtb = ConnectDB();
+/**
+ * Affiche les composants d'une catégorie précise avec un bouton pour 
+ * pouvoir l'ajouter à la configuration
+ * @param type $categorieName
+ */
+function ShowThisCategoryWithButton($categorieName) {
+    $dtb = connectDB();
     $location = "./images/composant/";
     $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie`, `id_composant` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
     $maRequete = $dtb->prepare($sql);
@@ -211,8 +246,11 @@ function ShowThisCategorieWithButton($categorieName) {
     echo '</form>';
 }
 
+/**
+ * Affiche la configuration que l'utilisateur crée depuis la session
+ */
 function ShowConfiguration() {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
@@ -227,6 +265,7 @@ function ShowConfiguration() {
         $nom = "";
         $lien = "";
         if (isset($_SESSION[$value["nom_categorie"]])) {
+            //si le composant de la catégorie n'existe pas 
             if (empty($_SESSION[$value["nom_categorie"]]["nom_composant"])) {
                 $img = "images/composant/default.png";
                 $prix = "0";
@@ -234,6 +273,7 @@ function ShowConfiguration() {
                 $lien = "";
                 $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
             } else {
+                //sinon
                 $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
                 $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
                 $nom = $_SESSION[$value["nom_categorie"]]["nom_composant"];
@@ -243,6 +283,7 @@ function ShowConfiguration() {
             $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
         
+        //affichage des informations
         echo '<div class="panel-heading">
                     <h3 class="panel-title" id="h4Border">';
                  echo $value["nom_categorie"];
@@ -276,22 +317,11 @@ function ShowConfiguration() {
     }
 }
 
-function CreatSessionArray() {
-    $dtb = ConnectDB();
-    $sql = "Select nom_categorie from t_categorie where 1";
-    $maRequete = $dtb->prepare($sql);
-    $maRequete->execute(array());
-    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
-        $return[] = $data;
-    }
-
-    foreach ($return as $value) {
-        echo '$_SESSION["' . $value["nom_categorie"] . '"] = []';
-    }
-}
-
+/**
+ * Affiche tous les utilisateurs qui se trouvent dans la base de données
+ */
 function ShowUser() {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = "Select * from t_utilisateur where 1";
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
@@ -310,6 +340,15 @@ function ShowUser() {
     }
 }
 
+/**
+ * Met à jour les informations de l'utilisateur, puis recharge les informations modifiés
+ * @param type $currentUser
+ * @param type $newFirstName
+ * @param type $newName
+ * @param type $newPassword
+ * @param type $newEmail
+ * @return type
+ */
 function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPassword, $newEmail) {
 
     $dtb = connectDB();
@@ -330,14 +369,21 @@ function UpdateUserInformation($currentUser, $newFirstName, $newName, $newPasswo
     return $data;
 }
 
+/**
+ * Supprime l'utilisateur en fonction de son email 
+ * @param type $EmailUser
+ */
 function DeletUser($EmailUser) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare("DELETE FROM t_utilisateur WHERE email_utilisateur=?");
     $MaRequete->execute(array($EmailUser));
 }
 
-function GetCategorrie() {
-    $dtb = ConnectDB();
+/**
+ * Affiche toutes les catégories sous forme d'options
+ */
+function GetCategory() {
+    $dtb = connectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
@@ -350,8 +396,12 @@ function GetCategorrie() {
     }
 }
 
+/**
+ * Affiche toutes les informations des composant se trouvant dans une catégorie précise
+ * @param type $categorieName
+ */
 function ShowComponent($categorieName) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $location = "./images/composant/";
     if ($categorieName == "ca.nom_categorie") {
         $tempo = "";
@@ -377,13 +427,23 @@ function ShowComponent($categorieName) {
     echo '</table>';
 }
 
+/**
+ * Permet d'ajouter un composant dans la base de données
+ * @staticvar type $maRequete
+ * @param type $nameComponent
+ * @param type $descrptionComponent
+ * @param type $imgComponent
+ * @param type $priceComponent
+ * @param type $categorieComponent
+ * @return string
+ */
 function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $priceComponent, $categorieComponent) {
     static $maRequete = null;
     $error = "";
 
     //Prépaper la requête lors du premier appel
     if ($maRequete == null) {
-        $maRequete = ConnectDB()->prepare("INSERT INTO t_composant (nom_composant, description_composant, photo_composant, prix_composant, id_categorie)
+        $maRequete = connectDB()->prepare("INSERT INTO t_composant (nom_composant, description_composant, photo_composant, prix_composant, id_categorie)
                                                 VALUES             (            ?,                ?,               ?,              ?,            ?)");
     }
 
@@ -397,22 +457,36 @@ function AddComponent($nameComponent, $descrptionComponent, $imgComponent, $pric
     return $error;
 }
 
+/**
+ * Récupère l'id du composant grâce au nom
+ * @param type $categorieComponent
+ * @return type
+ */
 function GetIdByName($categorieComponent) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $maRequete = $dtb->prepare('SELECT id_categorie FROM t_categorie WHERE nom_categorie = "' . $categorieComponent . '"');
     $maRequete->execute(array());
     $data = $maRequete->fetchColumn();
     return $data;
 }
 
+/**
+ * Supprimer un utilisateur grâce à son id
+ * @param type $idUser
+ */
 function DeletUserById($idUser) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_utilisateur WHERE id_utilisateur=?');
     $MaRequete->execute(array($idUser));
 }
 
+/**
+ * Affiche un composant en fonction de son id
+ * @param type $idComponent
+ * @return type
+ */
 function ShowThisComponent($idComponent) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = "SELECT * FROM t_composant WHERE id_composant = ? ";
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array($idComponent));
@@ -420,14 +494,28 @@ function ShowThisComponent($idComponent) {
     return $data;
 }
 
+/**
+ * Récupère le nom du composant grâce à on id
+ * @param type $idComponent
+ * @return type
+ */
 function GetNameById($idComponent) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $maRequete = $dtb->prepare('SELECT nom_categorie FROM t_categorie WHERE id_categorie = ?');
     $maRequete->execute(array($idComponent));
     $data = $maRequete->fetchColumn();
     return $data;
 }
 
+/**
+ * Met à jour les informations du composant
+ * @param type $currentComponent
+ * @param type $newNameComponent
+ * @param type $newDescriptionComponent
+ * @param type $newPrixComponent
+ * @param type $newCategorieComponent
+ * @return type$
+ */
 function UpdateComponentInformation($currentComponent, $newNameComponent, $newDescriptionComponent, $newPrixComponent, $newCategorieComponent) {
 
     $dtb = connectDB();
@@ -446,14 +534,22 @@ function UpdateComponentInformation($currentComponent, $newNameComponent, $newDe
     return $data;
 }
 
+/**
+ * Supprime un composant grâce à son id
+ * @param type $idComponent
+ */
 function DeletComponentById($idComponent) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_composant WHERE id_composant=' . $idComponent . '');
     $MaRequete->execute(array());
 }
 
+/**
+ * Permet de calculer le prix total de la configuration grâce au composant dans la session
+ * @return type
+ */
 function CalculatePrice() {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
@@ -477,8 +573,11 @@ function CalculatePrice() {
     return $total;
 }
 
-function CleanSession() {
-    $dtb = ConnectDB();
+/**
+ * Permet de vider la session qui comporte les composant
+ */
+function ClearSession() {
+    $dtb = connectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
@@ -497,21 +596,29 @@ function CleanSession() {
     }
 }
 
-function AddConfiguration($price, $title, $components, $idUtilisateur) {
+/**
+ * Ajout une nouvelle configuration dans la base de données
+ * @staticvar type $maRequete
+ * @param type $price
+ * @param type $title
+ * @param type $idUtilisateur
+ * @return string
+ */
+function AddConfiguration($price, $title, $idUtilisateur) {
     static $maRequete = null;
     $error = "";
 
     $actif = true;
     //Prépaper la requête lors du premier appel
     if ($maRequete == null) {
-        $maRequete = ConnectDB()->prepare("INSERT INTO t_configuration ( prix_configuration, titre_configuration, composant_configuration, estActive, id_utilisateur)
-                                                VALUES                 (                  ?,                   ?,                       ?,         ?,              ?)");
+        $maRequete = connectDB()->prepare("INSERT INTO t_configuration ( prix_configuration, titre_configuration, estActive, id_utilisateur)
+                                                VALUES                 (                  ?,                   ?,         ?,              ?)");
     }
 
     try {
         //Enregistrer les données
-        $maRequete->execute(array($price, $title, "plop", $actif, $idUtilisateur));
-        AddComponentsToConfiguration($components, ConnectDB()->lastInsertId());
+        $maRequete->execute(array($price, $title,  $actif, $idUtilisateur));
+        AddComponentsToConfiguration($components, connectDB()->lastInsertId());
         $error = "OK";
     } catch (Exception $e) {
         $error = "error";
@@ -519,9 +626,13 @@ function AddConfiguration($price, $title, $components, $idUtilisateur) {
     return $error;
 }
 
+/**
+ * Ajout les composant la configuration grâce à une table de liaison
+ * @param type $components
+ * @param type $id
+ */
 function AddComponentsToConfiguration($components, $id) {
-    
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = "INSERT INTO t_composee (id_configuration, id_composant) VALUES (?, ?)";
     $maRequete = $dtb->prepare($sql);
     
@@ -531,8 +642,12 @@ function AddComponentsToConfiguration($components, $id) {
     }
 }
 
+/**
+ * Affiches les configurations actives
+ * @param type $idUser
+ */
 function ShowCreationActive($idUser) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' and estActive=1 ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute();
@@ -558,8 +673,12 @@ function ShowCreationActive($idUser) {
 //       }
 }
 
+/**
+ * Affiches les configurations inactives
+ * @param type $idUser
+ */
 function ShowCreationInactive($idUser) {
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = 'Select * from t_configuration where id_utilisateur = ' . $idUser . ' and estActive=0 ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute();
@@ -584,32 +703,12 @@ function ShowCreationInactive($idUser) {
 //       }
 }
 
-function CreateCategorySection($tableau) {
-
-    //$tableau = explode(",", $value["composant_configuration"]);
-    $dtb = ConnectDB();
-    $sql = "Select nom_categorie from t_categorie where id_categorie = ?";
-    $maRequete = $dtb->prepare($sql);
-
-    foreach ($maRequete as $id) {
-
-        $categorieName = null;
-
-        $maRequete->execute(array($id));
-        while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
-            $categorieName = $data['categorieName'];
-        }
-        
-        if ($categorieName != null) {
-            
-            $_SESSION[$categorieName] = $id;
-        }
-    }
-}
-
+/**
+ * Affiches tous les composants de la configuration avec toutes les informations
+ * @param type $idConfiguration
+ */
 function ShowComponentsById($idConfiguration) {
-    
-    $dtb = ConnectDB();
+    $dtb = connectDB();
     $sql = "SELECT nom_composant, prix_composant, photo_composant, id_categorie FROM t_composant ca, t_composee ce WHERE ca.id_composant = ce.id_composant AND ce.id_configuration = ?";
     $maRequete = $dtb->prepare($sql);
     
