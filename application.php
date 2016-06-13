@@ -399,15 +399,15 @@ function GetCategory() {
  * Affiche toutes les informations des composant se trouvant dans une catégorie précise
  * @param type $categorieName
  */
-function ShowComponent($categorieName) {
+function ShowComponent($categoryName) {
     $dtb = connectDB();
     $location = "./images/composant/";
-    if ($categorieName == "ca.nom_categorie") {
+    if ($categoryName == "ca.nom_categorie") {
         $tempo = "";
     } else {
         $tempo = '"';
     }
-    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = ' . $tempo . $categorieName . $tempo . ' ';
+    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = ' . $tempo . $categoryName . $tempo . ' ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
