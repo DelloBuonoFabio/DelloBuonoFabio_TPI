@@ -77,10 +77,13 @@ if (isset($_REQUEST["btnSauvegarder"])){
                 ?>
             </div>
         </div>
-        <div class="container" id="printableArea">
+        <!-- CONTENT --> 
+        <div class="container marketing" id="printableArea">
+            <!-- CONTENT CONFIGURATION -->
             <div class="panel panel-default col-md-8">
                 <?php ShowConfiguration() ?>
             </div>
+            <!-- CONTENT INFORMATION/OPTION -->
             <div class="panel panel-default col-md-4">
                 <h3>Prix Total : <?php echo CalculatePrice() ?> CHF</h3>
                 <form action="#" method="post">
@@ -99,7 +102,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                 <?php echo $error; ?>
             </div>
             </br>
-            <!-- Modal Security -->
+            <!-- MODAL SECURITY -->
             <div class="modal fade" id="ModalSupprimer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -115,7 +118,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                     </div>
                 </div>
             </div>
-            <!-- Modal Save-->
+            <!-- MODAL SAVE CREATION-->
             <div class="modal fade" id="ModalSauvegrader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -141,7 +144,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                 ?>
             </footer>
         </div>
-        <!-- Bootstrap script  -->
+        <!-- BOOTSTRAP SCRIPT -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>

@@ -3,7 +3,7 @@ session_start();
 require_once 'application.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <?php
         echo AllMeta();
@@ -18,13 +18,13 @@ require_once 'application.php';
                 ?>
             </div>
         </div>
-        <div class="container">
-            <!-- PANEL -->
+        <!-- CONTENT -->
+        <div class="container marketing">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>les catégories</h3>
                 </div>
-                <!-- Contenue de la liste -->
+                <!-- LISTE CATEGORY -->
                 <div class="panel-body">
                     <?php
                     ShowCategorie();
@@ -39,7 +39,7 @@ require_once 'application.php';
                 ?>
             </footer>
         </div>
-        <!-- Bootstrap script  -->
+        <!-- BOOTSTRAP SCRIPT -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>

@@ -188,6 +188,29 @@ function ShowThisCategorie($categorieName) {
     echo '</table>';
 }
 
+function ShowThisCategorieWithButton($categorieName) {
+    $dtb = ConnectDB();
+    $location = "./images/composant/";
+    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie`, `id_composant` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
+    $maRequete = $dtb->prepare($sql);
+    $maRequete->execute(array());
+    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
+        $return[] = $data;
+    }
+    echo '<form action="#" method="post">';
+    echo '<table class="table">';
+    foreach ($return as $value) {
+        echo '<tr class="listeCategorie">';
+        echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
+        echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
+        echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
+        echo '<td><a href="composant.php?Categorie=' . $value["nom_categorie"] . '&&idComposant=' . $value["id_composant"] . '"><button type="button" class="btn btn-default btn-md btn-block" name=' . $value["nom_categorie"] . ' style ="margin-top: 20px;">Ajouter</button></td></a>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    echo '</form>';
+}
+
 function ShowConfiguration() {
     $dtb = ConnectDB();
     $sql = "Select nom_categorie from t_categorie where 1";
@@ -408,29 +431,6 @@ function DeletComponentById($idComponent) {
     $dtb = connectDB();
     $MaRequete = $dtb->prepare('DELETE FROM t_composant WHERE id_composant=' . $idComponent . '');
     $MaRequete->execute(array());
-}
-
-function ShowThiscategorieWithButton($categorieName) {
-    $dtb = ConnectDB();
-    $location = "./images/composant/";
-    $sql = 'SELECT `nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie`, `id_composant` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie ="' . $categorieName . '" ';
-    $maRequete = $dtb->prepare($sql);
-    $maRequete->execute(array());
-    while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
-        $return[] = $data;
-    }
-    echo '<form action="#" method="post">';
-    echo '<table class="table">';
-    foreach ($return as $value) {
-        echo '<tr class="listeCategorie">';
-        echo '<td><img src=' . $location . $value["nom_categorie"] . '/' . $value["photo_composant"] . ' alt=' . $value["nom_composant"] . ' class="img-rounded"/></td>';
-        echo '<td><h3>' . $value["nom_composant"] . '</h3></td>';
-        echo '<td><h3>' . $value["prix_composant"] . ' CHF </h3></td>';
-        echo '<td><a href="composant.php?Categorie=' . $value["nom_categorie"] . '&&idComposant=' . $value["id_composant"] . '"><button type="button" class="btn btn-default btn-cm btn-block" name=' . $value["nom_categorie"] . '>Valider</button></td></a>';
-        echo '</tr>';
-    }
-    echo '</table>';
-    echo '</form>';
 }
 
 function CalculatePrice() {

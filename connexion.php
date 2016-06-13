@@ -53,33 +53,33 @@ if (isset($_REQUEST["btnSubmit"])) {
 
             </div>
         </div>
-        <!-- CONTENT1 -->
-        <div class="container marketing">
+        <!-- CONTENT -->
+        <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>Connexion</h3>
                 </div>
                 <div class="panel-body">
                     <form action="#" method="post">
-                <div class="input-group input-group-lg form-group">
+                <div class="input-group input-group-md form-group">
                     <input type="email" class="form-control" placeholder="Email" name='UserEmail' required aria-describedby="basic-addon2">
                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span></span>
                 </div> 
-                <div class="input-group input-group-lg form-group">
+                <div class="input-group input-group-md form-group">
                     <input type="password" class="form-control" placeholder="Mot de Passe" name='UserPassword' required aria-describedby="basic-addon2">
                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span></span>
                 </div> 
                 <br>
-                <button type="submit" class="btn btn-default btn-lg btn-block" name='btnSubmit'>Envoyer</button>
+                <button type="submit" class="btn btn-default btn-md btn-block" name='btnSubmit'>Envoyer</button>
             </form>     
             <br>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#myModal">
+            <!-- BUTTON MODAL REGISTER-->
+            <button type="button" class="btn btn-default btn-md btn-block" data-toggle="modal" data-target="#myModal">
                 Créer un compte
             </button>
                 </div>
             </div>
-            <!-- Modal -->
+            <!-- MODAL REGISTER-->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -89,23 +89,23 @@ if (isset($_REQUEST["btnSubmit"])) {
                                 <h3 class="modal-title" id="myModalLabel">Enregistrement</h3>
                             </div>
                             <div class="modal-body">
-                                <div class="input-group input-group-lg form-group">
+                                <div class="input-group input-group-md form-group">
                                     <input type="text" class="form-control" placeholder="Nom"  name='NewName' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span></span>
                                 </div> 
-                                <div class="input-group input-group-lg form-group">
+                                <div class="input-group input-group-md form-group">
                                     <input type="text" class="form-control" placeholder="Prenom"  name='NewFirstName' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span>
                                 </div> 
-                                <div class="input-group input-group-lg form-group">
+                                <div class="input-group input-group-md form-group">
                                     <input type="email" class="form-control" placeholder="Email"  name='NewEmail' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-envelope"></span>
                                 </div> 
-                                <div class="input-group input-group-lg form-group">
+                                <div class="input-group input-group-md form-group">
                                     <input type="password" class="form-control" placeholder="Mot De Passe" name='NewPassword' required aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span>
                                 </div> 
-                                <div class="input-group input-group-lg form-group">
+                                <div class="input-group input-group-md form-group">
                                     <input type="password" class="form-control" placeholder="Confirmer le Mot De Passe" required name='NewPasswordConfirmed' aria-describedby="basic-addon2">
                                     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span>
                                 </div> 
@@ -128,7 +128,7 @@ if (isset($_REQUEST["btnSubmit"])) {
                 ?>
             </footer>
         </div>
-        <!-- Bootstrap script  -->
+        <!-- BOOTSTRAP SCRIPT -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>
