@@ -70,7 +70,6 @@ body {
 .table td,
 .table th {
     color: #F9D01B; 
-    text-align: center;
     font-size: 17px;
 }
 
@@ -153,10 +152,6 @@ h4{
     color: #F9D01B;
 }
 
-.noBorder{
-    border: none;
-}
-
 .btn-file{
     background: white;
     cursor: inherit;
@@ -171,4 +166,8 @@ h4{
 #h4Border{
     border-bottom: 1px solid #808080;
     padding-bottom: 5px;
+}
+
+.table > tbody > tr > td{
+    border: none;
 }

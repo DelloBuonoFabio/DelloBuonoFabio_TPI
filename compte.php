@@ -46,7 +46,9 @@ if (isset($_REQUEST["DeleteUser"])) {
                 ?>
             </div>
         </div>
-        <div class="container">
+        <!-- CONTENT -->  
+        <div class="container marketing">
+            <!-- CONTENT INFORMATION USER -->  
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>Mes Informations Personnels</h3>
@@ -57,6 +59,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                     <h4>Email</h4><p><?php echo $_SESSION['user_logged']['email_utilisateur'] ?></p>
                 </div>
             </div>
+            <!-- CONTENT OPTION USER -->
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalInformation">Mes informations</button>
@@ -78,7 +81,7 @@ if (isset($_REQUEST["DeleteUser"])) {
             }
             echo $button;
             ?>
-            <!-- Modal information -->
+            <!-- MODAL INFORMATION -->
             <div class="modal fade" id="ModalInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -117,7 +120,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                     </div>
                 </div>
             </div>
-            <!-- Modal creation -->
+            <!-- MODAL CREATION -->
             <div class="modal fade" id="ModalCreation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -138,7 +141,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                     </div>
                 </div>
             </div>
-            <!-- Modal Security -->
+            <!-- MODAL SECURITY-->
             <div class="modal fade" id="ModalSecurity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -154,8 +157,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                     </div>
                 </div>
             </div>
-
-            <!-- Modal Modification -->
+            <!-- MODAL MODIFICATION -->
             <div class="modal fade" id="ModifierConfiguration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -181,7 +183,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                 ?>
             </footer>
         </div>
-        <!-- Bootstrap script  -->
+        <!-- BOOTSTRAP SCRIPT -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>

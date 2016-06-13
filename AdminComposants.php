@@ -84,8 +84,10 @@ if (isset($_REQUEST["DeleteComponent"])) {
                 ?>
             </div>
         </div>
-        <div class="container">
+        <!-- CONTENT --> 
+        <div class="container marketing">
             <h3>Administration Composants</h3>
+            <!-- CONTENT COMPONENTS --> 
             <div class="panel panel-default panel-dropdown">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -114,6 +116,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                     ?>
                 </div>
             </div>
+            <!-- BUTTON ADD --> 
             <button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalAjouter">Ajouter un composant</button>
             <?php
             if ($idComponent == "") {
@@ -132,7 +135,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
             echo $fileError;
             ?>
 
-            <!-- Modal Ajouter -->
+            <!-- MODAL ADD -->
             <div class="modal fade" id="ModalAjouter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -167,7 +170,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                     </div>
                 </div>
             </div>
-            <!-- Modal Option -->
+            <!-- MODAL OPTION -->
             <div class="modal fade" id="ModalOption" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -210,7 +213,7 @@ if (isset($_REQUEST["DeleteComponent"])) {
                 ?>
             </footer>
         </div>
-        <!-- Bootstrap script  -->
+        <!-- BOOTSTRAP SCRIPT -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>

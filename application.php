@@ -225,34 +225,53 @@ function ShowConfiguration() {
         $img = "images/composant/default.png";
         $prix = "0";
         $nom = "";
-        $button = "";
+        $lien = "";
         if (isset($_SESSION[$value["nom_categorie"]])) {
             if (empty($_SESSION[$value["nom_categorie"]]["nom_composant"])) {
                 $img = "images/composant/default.png";
                 $prix = "0";
                 $nom = "";
-                $button = "";
-                $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+                $lien = "";
+                $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
             } else {
                 $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
                 $prix = $_SESSION[$value["nom_categorie"]]["prix_composant"];
                 $nom = $_SESSION[$value["nom_categorie"]]["nom_composant"];
-                $button = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4 style="color: #ffffff;">Modifier</h4></a>';
+                $lien = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4 style="color: #ffffff;">Modifier</h4></a>';
             }
         } else {
-            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4 id="h4Border">Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
+        
         echo '<div class="panel-heading">
-                    <h3 class="panel-title">';
-        echo $value["nom_categorie"];
-        echo '</h3>
-                </div>
-                <div class="panel-body" class="texte-configuration">';
+                    <h3 class="panel-title" id="h4Border">';
+                 echo $value["nom_categorie"];
+             echo '</h3>';
+        echo '</div>
+            <div class="panel-body" class="texte-configuration">';
+        
+        echo '<table class="table">';
+        echo '<tr>';
+        echo '<td>';
         echo '<img src="' . $img . '" class="img-thumbnail" style="width: 80px;" alt="img"/>';
+        echo '</td>';
+        echo '<td>';
+        echo '<h4>' . $nom . '</h4>';
+        echo '</td>';
+        echo '<td>';
+        echo '<h4>' . $prix . ' CHF</h4>';
+        echo '</td>';
+        echo '<td>';
+        echo $lien;
+        echo '</td>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td colspan = 4 class="noBorder">';
         echo $text;
-        echo $button;
-        echo '<h4 id="h4Border">' . $nom . '</h4>';
-        echo '<h4 id="h4Border">' . $prix . ' CHF</h4>';
+        echo '</td>';
+        echo '</tr>';
+        echo '</table>';         
+             
         echo '</div>';
     }
 }

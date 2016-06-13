@@ -30,7 +30,9 @@ if (isset($_REQUEST["DeleteUser"])) {
                 ?>
             </div>
         </div>
-        <div class="container">
+        <!-- CONTENT --> 
+        <div class="container marketing">
+            <!-- CONTENT USERS --> 
             <table class="table">
                 <tr>
                     <th>Nom</th><th>Prénom</th><th>Email</th><th>Admin</th><th>Option</th>
@@ -40,7 +42,7 @@ if (isset($_REQUEST["DeleteUser"])) {
             <?php
             echo $button;
             ?>
-            <!-- Modal Security -->
+            <!-- MODAL SECURITY -->
             <div class="modal fade" id="ModalSecurity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -63,7 +65,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                 ?>
             </footer>
         </div>
-        <!-- Bootstrap script  -->
+        <!-- BOOTSTRAP SCRIPT -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>

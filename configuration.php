@@ -108,7 +108,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
                     <div class="modal-content">
                         <form action="#" method="post" id="registerForm">
                             <div class="modal-header">
-                                <div class="alert alert-danger" role="alert"><strong>Attention!</strong> Voulez-vous vraiment supprimer votre configguration ?</div>
+                                <div class="alert alert-danger" role="alert"><strong>Attention!</strong> Voulez-vous vraiment supprimer votre configuration ?</div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
