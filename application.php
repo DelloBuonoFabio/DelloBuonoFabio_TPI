@@ -270,7 +270,7 @@ function ShowConfiguration() {
                 $prix = "0";
                 $nom = "";
                 $lien = "";
-                $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+                $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
             } else {
                 //sinon
                 $img = 'images/composant/' . $value["nom_categorie"] . '/' . $_SESSION[$value["nom_categorie"]]["photo_composant"] . '';
@@ -279,7 +279,7 @@ function ShowConfiguration() {
                 $lien = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4 style="color: #ffffff;">Modifier</h4></a>';
             }
         } else {
-            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
+            $text = '<a href="composant.php?Categorie=' . $value["nom_categorie"] . '" class="hidden-print"><h4>Veuillez choisir un(e) ' . $value["nom_categorie"] . '</h4></a>';
         }
 
         //affichage des informations
