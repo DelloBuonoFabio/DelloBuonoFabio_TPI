@@ -2,6 +2,11 @@
 session_start();
 require_once 'application.php';
 
+if(empty($_SESSION['user_logged']))
+{
+    header("location:index.php");
+}
+
 $error = "";
 
 $button = "";

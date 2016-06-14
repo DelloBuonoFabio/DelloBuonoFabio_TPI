@@ -407,7 +407,7 @@ function ShowComponent($categoryName) {
     } else {
         $tempo = '"';
     }
-    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca where ca.id_categorie = co.id_categorie and ca.nom_categorie = ' . $tempo . $categoryName . $tempo . ' ';
+    $sql = 'SELECT `id_composant`,`nom_composant`, `photo_composant`, `prix_composant`, `nom_categorie` FROM t_composant co,t_categorie ca WHERE ca.id_categorie = co.id_categorie and ca.nom_categorie = ' . $tempo . $categoryName . $tempo . ' ';
     $maRequete = $dtb->prepare($sql);
     $maRequete->execute(array());
     while ($data = $maRequete->fetch(PDO::FETCH_ASSOC)) {
@@ -588,10 +588,6 @@ function ClearSession() {
         if (isset($_SESSION[$value["nom_categorie"]])) {
             $_SESSION[$value["nom_categorie"]] = [];
         }
-
-//        $_SESSION[$value["nom_categorie"]]["photo_composant"] = "images/composant/default.png";
-//        $_SESSION[$value["nom_categorie"]]["prix_composant"] = 0;
-//        $_SESSION[$value["nom_categorie"]]["nom_composant"] = "";
     }
 }
 
