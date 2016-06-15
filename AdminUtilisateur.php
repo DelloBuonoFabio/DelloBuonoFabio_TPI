@@ -17,7 +17,7 @@ if(empty($_SESSION['user_logged']['estAdmin']))
 $button = "";
 if (isset($_GET['idUser'])) {
     $idUser = $_GET['idUser'];
-    $button = '<button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer supprimer ce compte</button>';
+    $button = '<button type="button" class="btn btn-default btn-sm btn-block" name="btnSubmit" data-toggle="modal" data-target="#ModalSecurity">Supprimer ce compte</button>';
 } else {
     $idUser = "";
     $button = "";

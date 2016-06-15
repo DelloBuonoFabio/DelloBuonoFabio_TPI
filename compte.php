@@ -185,7 +185,7 @@ if (isset($_REQUEST["DeleteUser"])) {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Modifier</button>
+                                <button type="submit" name="DeleteUser" id="btnYellow" class="btn btn-primary">Supprimer</button>
                             </div>
                         </form>
                     </div>

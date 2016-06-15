@@ -2,13 +2,12 @@
 session_start();
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    La page index est la première page du site 
- **************************************/
-
+ * ************************************ */
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -40,10 +39,12 @@ require_once 'application.php';
                     <h3>À propos</h3>
                 </div>
                 <div class="panel-body">
-                    Beaucoup de gens dans mon entourage mon demandé de l’aide pour leur futur projet d’ordinateur, avec grand plaisir j’ai eu la possibilité de les aider, mais grâce à ce site web, beaucoup de gens pourrons le faire eu même en tout simplicité.                
+                    J’ai conçu ce site principalement pour aider les personnes qui ont envie de construire leur propre PC mais qui n’ont pas forcément les compétences nécessaire mais aussi, pour pouvoir travailler dans un domaine qui me passionne beaucoup, l’HardWare.
+                    Beaucoup de gens dans mon entourage m’ont demandé de l’aide pour leur futur projet d’ordinateur. 
+                    Avec grand plaisir, j’ai eu la possibilité de les aider mais maintenant, grâce à ce site web, beaucoup de gens pourront le faire eux-mêmes en toute simplicité. 
                 </div>
             </div>
-            
+
             <!-- CONTENT MAP-->
             <div class="panel panel-default">
                 <div class="panel-heading">
