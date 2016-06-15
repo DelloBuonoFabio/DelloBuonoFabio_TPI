@@ -7,13 +7,12 @@ session_destroy();
 
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    Cette page déconnecte l'utilisateur et détruit la session
- **************************************/
-
+ * ************************************ */
 ?>
 <!DOCTYPE html>
 <html lang="en">

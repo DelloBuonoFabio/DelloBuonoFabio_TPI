@@ -2,15 +2,14 @@
 session_start();
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    Cette page permet à l'administrateur de gérer tous les composants du site
- **************************************/
+ * ************************************ */
 
-if(empty($_SESSION['user_logged']['estAdmin']))
-{
+if (empty($_SESSION['user_logged']['estAdmin'])) {
     header("location:index.php");
 }
 
@@ -28,7 +27,7 @@ if (isset($_REQUEST["AddComponent"])) {
     $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
     if (isset($_POST["AddComponent"])) {
-        
+
         var_dump($_FILES["fileToUpload"]["name"]);
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         if ($check !== false) {

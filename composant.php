@@ -2,12 +2,12 @@
 session_start();
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    Cette page affiche les composants d'une catégorie
- **************************************/
+ * ************************************ */
 
 $categorieName = $_GET['Categorie'];
 

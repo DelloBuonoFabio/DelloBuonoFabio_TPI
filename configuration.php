@@ -2,12 +2,12 @@
 session_start();
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    Cette page permet a l'utilisateur de créer sa propre configuration
- **************************************/
+ * ************************************ */
 
 if(empty($_SESSION['user_logged']))
 {
@@ -161,6 +161,7 @@ if (isset($_REQUEST["btnSauvegarder"])){
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>
         <script>
+            //fonction pour l'impression
             function printDiv(divName) {
                 var printContents = document.getElementById(divName).innerHTML;
 

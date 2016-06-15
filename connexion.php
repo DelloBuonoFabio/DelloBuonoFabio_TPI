@@ -2,12 +2,12 @@
 session_start();
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    Cette page permet a l'utilisateur de se connecter et de ce créer un compte
- **************************************/
+ * ************************************ */
 
 $error = "";
 
@@ -68,22 +68,22 @@ if (isset($_REQUEST["btnSubmit"])) {
                 </div>
                 <div class="panel-body">
                     <form action="#" method="post">
-                <div class="input-group input-group-md form-group">
-                    <input type="email" class="form-control" placeholder="Email" name='UserEmail' required aria-describedby="basic-addon2">
-                    <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span></span>
-                </div> 
-                <div class="input-group input-group-md form-group">
-                    <input type="password" class="form-control" placeholder="Mot de Passe" name='UserPassword' required aria-describedby="basic-addon2">
-                    <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span></span>
-                </div> 
-                <br>
-                <button type="submit" class="btn btn-default btn-md btn-block" name='btnSubmit'>Envoyer</button>
-            </form>     
-            <br>
-            <!-- BUTTON MODAL REGISTER-->
-            <button type="button" class="btn btn-default btn-md btn-block" data-toggle="modal" data-target="#myModal">
-                Créer un compte
-            </button>
+                        <div class="input-group input-group-md form-group">
+                            <input type="email" class="form-control" placeholder="Email" name='UserEmail' required aria-describedby="basic-addon2">
+                            <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-user"></span></span>
+                        </div> 
+                        <div class="input-group input-group-md form-group">
+                            <input type="password" class="form-control" placeholder="Mot de Passe" name='UserPassword' required aria-describedby="basic-addon2">
+                            <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock"></span></span>
+                        </div> 
+                        <br>
+                        <button type="submit" class="btn btn-default btn-md btn-block" name='btnSubmit'>Envoyer</button>
+                    </form>     
+                    <br>
+                    <!-- BUTTON MODAL REGISTER-->
+                    <button type="button" class="btn btn-default btn-md btn-block" data-toggle="modal" data-target="#myModal">
+                        Créer un compte
+                    </button>
                 </div>
             </div>
             <!-- MODAL REGISTER-->

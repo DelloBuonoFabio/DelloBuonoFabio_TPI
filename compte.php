@@ -2,15 +2,14 @@
 session_start();
 require_once 'application.php';
 
-/**************************************
+/* * ************************************
  * Projet :         MyPCConfig
  * Auteur :         Dello Buono Fabio
  * Date :           15.06.2016
  * Description :    Cette page permet à l'utilisateur d'avoir un CRUD total sur ces informations
- **************************************/
+ * ************************************ */
 
-if(empty($_SESSION['user_logged']))
-{
+if (empty($_SESSION['user_logged'])) {
     header("location:index.php");
 }
 
@@ -41,16 +40,14 @@ if (isset($_GET["idConfiguration"])) {
     $_SESSION["localConfiguration"] = GetConfiguration($_GET["idConfiguration"]);
 }
 
-if(isset($_REQUEST["modifCreation"])){
-    
+if (isset($_REQUEST["modifCreation"])) {
+
     $UpdateTitle = filter_input(INPUT_POST, 'UpdateTitle', FILTER_SANITIZE_SPECIAL_CHARS);
-    $UpdateActive = isset ($_REQUEST['UpdateActive']);
-    
-    if(!empty($UpdateTitle))
-    {
+    $UpdateActive = isset($_REQUEST['UpdateActive']);
+
+    if (!empty($UpdateTitle)) {
         $UpdateCreation = UpdateConfiguration($_GET["idConfiguration"], $UpdateTitle, $UpdateActive);
-        if($UpdateCreation)
-        {
+        if ($UpdateCreation) {
             $_SESSION["localConfiguration"] = $UpdateCreation;
         }
     }
@@ -62,22 +59,21 @@ if (isset($_REQUEST["DeleteUser"])) {
     DeletUser($_SESSION['user_logged']['email_utilisateur']);
     header('Location: logout.php');
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <?php
-        echo AllMeta();
-        ?>
+<?php
+echo AllMeta();
+?>
     </head>
     <body>  
         <!-- MENU -->                
         <div class="navbar-wrapper">
             <div class="container">
-                <?php
-                menu();
-                ?>
+<?php
+menu();
+?>
             </div>
         </div>
         <!-- CONTENT -->  
@@ -102,9 +98,9 @@ if (isset($_REQUEST["DeleteUser"])) {
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalCreation">Mes créations</button>
                 </div>
             </div>
-            <?php
-            echo $error;
-            ?>
+<?php
+echo $error;
+?>
             </br>
             <button type="button" class="btn btn-default btn-sm btn-block" name='btnSubmit' data-toggle="modal" data-target="#ModalSecurity">Supprimer le compte</button>
             <?php
@@ -163,10 +159,10 @@ if (isset($_REQUEST["DeleteUser"])) {
                                 <h3 class="modal-title" id="myModalLabel">Mes Créations</h3>
                             </div>
                             <div class="modal-body">
-                                <?php
-                                echo ShowCreationActive($_SESSION['user_logged']['id_utilisateur']);
-                                echo ShowCreationInactive($_SESSION['user_logged']['id_utilisateur']);
-                                ?>
+<?php
+echo ShowCreationActive($_SESSION['user_logged']['id_utilisateur']);
+echo ShowCreationInactive($_SESSION['user_logged']['id_utilisateur']);
+?>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -202,7 +198,11 @@ if (isset($_REQUEST["DeleteUser"])) {
                             <div class="modal-body">
                                 <h4>Titre</h4>
                                 <input type="text" class="form-control" placeholder="Nom" value="<?php echo $_SESSION['localConfiguration']['titre_configuration'] ?>"  name='UpdateTitle' required aria-describedby="basic-addon2">
-                                <h4>Active/Inactive</h4><input type="checkbox" name="UpdateActive" value="Active" <?php if($_SESSION['localConfiguration']['estActive']){echo "checked";}else{echo "";} ?> class="form-control">
+                                <h4>Active/Inactive</h4><input type="checkbox" name="UpdateActive" value="Active" <?php if ($_SESSION['localConfiguration']['estActive']) {
+    echo "checked";
+} else {
+    echo "";
+} ?> class="form-control">
                                 <br>
                                 <?php ShowComponentsById($_GET["idConfiguration"]) ?>
                             </div>
