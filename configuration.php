@@ -2,6 +2,13 @@
 session_start();
 require_once 'application.php';
 
+/**************************************
+ * Projet :         MyPCConfig
+ * Auteur :         Dello Buono Fabio
+ * Date :           15.06.2016
+ * Description :    Cette page permet a l'utilisateur de créer sa propre configuration
+ **************************************/
+
 if(empty($_SESSION['user_logged']))
 {
     header("location:index.php");

@@ -1,4 +1,10 @@
 <?php
+/**************************************
+ * Projet :         MyPCConfig
+ * Auteur :         Dello Buono Fabio
+ * Date :           15.06.2016
+ * Description :    Cette page contien toutes les fonctions du site
+ **************************************/
 
 /**
  * Connexion à la base de données 

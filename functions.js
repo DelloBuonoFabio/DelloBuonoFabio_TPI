@@ -4,6 +4,13 @@ var direction;
 var geocoder = new google.maps.Geocoder;
 var name;
 
+/**************************************
+ * Projet :         MyPCConfig
+ * Auteur :         Dello Buono Fabio
+ * Date :           15.06.2016
+ * Description :    Cette page contiens les scripts pour la géolocalisation et le calcule d'itinéraire
+ **************************************/
+
 /* verifie si le site peu utiliser la geolocalisation */
 function getPosition(n) {
     if (navigator.geolocation)

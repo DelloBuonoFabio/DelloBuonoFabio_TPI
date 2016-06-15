@@ -2,6 +2,13 @@
 session_start();
 require_once 'application.php';
 
+/**************************************
+ * Projet :         MyPCConfig
+ * Auteur :         Dello Buono Fabio
+ * Date :           15.06.2016
+ * Description :    Cette page permet à l'administrateur de gérer tous les utilisateurs du site
+ **************************************/
+
 if(empty($_SESSION['user_logged']['estAdmin']))
 {
     header("location:index.php");

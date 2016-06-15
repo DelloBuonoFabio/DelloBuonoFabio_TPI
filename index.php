@@ -1,6 +1,14 @@
 <?php
 session_start();
 require_once 'application.php';
+
+/**************************************
+ * Projet :         MyPCConfig
+ * Auteur :         Dello Buono Fabio
+ * Date :           15.06.2016
+ * Description :    La page index est la première page du site 
+ **************************************/
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
