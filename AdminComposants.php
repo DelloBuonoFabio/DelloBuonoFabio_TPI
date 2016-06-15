@@ -230,13 +230,16 @@ if (isset($_REQUEST["DeleteComponent"])) {
         <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
         <script src="./BootStrap/js/bootstrap.min.js"></script>
         <script>
-            $(".panel-dropdown").find('.panel-heading').click();
+            //ajoute le triangle au dropdown
             $('<span>', {
                 class: "pull-right glyphicon glyphicon-triangle-bottom"
             }).appendTo($(".panel-dropdown").find('.panel-heading').find('h4'));
 
+            //ajoute un fonction clic au dropdown
             $(".panel-dropdown").find('.panel-heading').click(function () {
+                //change le triangle
                 $(this).find('span').toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
+                //cache ou affiche le contenu
                 $(this).parent(".panel").find(".panel-body").first().slideToggle();
             });
         </script>
